@@ -1,1 +1,2 @@
 # Minegun
+The game is a single player game where the player has to survive underground. They are initially equipped with a pickaxe and have to dig to find materials to make weapons. Deadly worms lurk underground and will try to come after the player. The player must defend against these worms with their weapons. The game ends once the player has dug up to the surface (they will initially start deep underground and items may get more scarce as they dig up) 
