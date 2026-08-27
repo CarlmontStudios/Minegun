@@ -1,4 +1,4 @@
-package UI;
+package project.UI;
 
 public class Grid {
 
