@@ -6,6 +6,16 @@ public class Grid {
     public final int MAP_WIDTH = 100;
     public final int MAP_HEIGHT = 1000;
     public final int[][] grid = new int[MAP_WIDTH][MAP_HEIGHT];
+    public static final int BLOCK_SIZE = 40; //in pixels
+
+
+
+    public static enum Direction {
+        UP, 
+        DOWN, 
+        LEFT, 
+        RIGHT
+    }
 
     public Grid(){
         initializeGrid();
@@ -25,5 +35,21 @@ public class Grid {
             }
         }
         
+    }
+
+    public static Direction getRandomDirection(){
+        int rand = (int)(Math.random() * 4);
+        switch(rand){
+            case 0:
+                return Direction.UP;
+            case 1:
+                return Direction.DOWN;
+            case 2:
+                return Direction.LEFT;
+            case 3:
+                return Direction.RIGHT;
+            default:
+                return Direction.UP; //should never happen
+        }
     }
 }
