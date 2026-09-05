@@ -18,10 +18,16 @@ public class Worm {
     private int x; //represents x and y coordinates of the head of the worm
     private int y;
 
+    //coordinates of the worm in pixels, used for movement
+    private int pixelCoordsX; 
+    private int pixelCoordsY;
+
     public Worm(Type type, int x, int y) {
         this.type = type;
         this.x = x;
         this.y = y;
+        this.pixelCoordsX = x * Grid.BLOCK_SIZE;
+        this.pixelCoordsY = y * Grid.BLOCK_SIZE;
         headDirection = Grid.getRandomDirection();
         setupWorm();
     }
@@ -62,7 +68,7 @@ public class Worm {
                     testX = partX;
                     testY = partY;
                 }
-                while (Grid.wormCanSpawn(testX, testY)) {
+                while (!Grid.wormCanSpawn(testX, testY)) {
                     direction = retrieveDirectionForBodyPart(i); // Get a new direction if the space is occupied
                     // Update testX and testY based on the new direction
                     switch (direction) {
@@ -124,6 +130,9 @@ public class Worm {
 
         return d;
     }
+
+    //#region MOVEMENT
+    
 
     
 }

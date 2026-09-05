@@ -34,7 +34,7 @@ public class Grid {
 
         //create spawn area
         for(int i = MAP_WIDTH/2 - 2; i < MAP_WIDTH/2 + 2; i++){ // width gets 48, 49, 50, 51
-            for(int j = MAP_HEIGHT - 3; j < MAP_HEIGHT - 9; j++){ // height gets 987-990, 
+            for(int j = MAP_HEIGHT - 13; j < MAP_HEIGHT - 10 ; j++){ // height gets 987-990, 
                 grid[i][j] = 0;
             }
         }
