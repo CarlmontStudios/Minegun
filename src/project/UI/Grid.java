@@ -32,11 +32,12 @@ public class Grid {
             for(int j = 0; j < MAP_HEIGHT; j++){
                 grid[i][j] = 1;
                 worm_grid[i][j] = 0;
-                Color baseColor;
-                int variation = (int)(Math.random() * 20) - 10; // Random variation between -10 and +10
-                color_grid[i][j] = new Color(Math.max(0, Math.min(255, Screen.DIRT_COLOR_0.getRed() + variation)),
-                                           Math.max(0, Math.min(255, Screen.DIRT_COLOR_0.getGreen() + variation)),
-                                           Math.max(0, Math.min(255, Screen.DIRT_COLOR_0.getBlue() + variation)));
+                Color baseColor = Screen.DIRT_COLOR_0; //TODO: make variation depending on y level
+                int variation = (int)(Math.random() * 8) - 4; // Random variation between -4 and +4
+                color_grid[i][j] = new Color(
+                    Math.max(0, Math.min(255, baseColor.getRed() + variation)),
+                    Math.max(0, Math.min(255, baseColor.getGreen() + variation)),
+                    0);
             }
         }
 

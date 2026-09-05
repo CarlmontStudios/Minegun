@@ -44,7 +44,7 @@ public class GameMap extends JPanel {
                 int x = i * Grid.BLOCK_SIZE;
                 int y = j * Grid.BLOCK_SIZE;
                 if(Grid.grid[i][j] == 1){
-                    g2d.setColor(Screen.DIRT_COLOR_0);
+                    g2d.setColor(Grid.color_grid[i][j]);
                 } else if (Grid.grid[i][j] == 0){
                     g2d.setColor(Color.BLACK);
                 }
