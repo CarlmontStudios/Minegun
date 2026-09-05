@@ -1,5 +1,7 @@
 package project.UI;
 
+import java.awt.Color;
+
 public class Grid {
 
     //in grid blocks not pixels
@@ -7,6 +9,7 @@ public class Grid {
     public static final int MAP_HEIGHT = 1000;
     public static final int[][] grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
     public static final int[][] worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
+    public static final Color[][] color_grid = new Color[MAP_WIDTH][MAP_HEIGHT]; //grid for block colors
     public static final int BLOCK_SIZE = 40; //in pixels
 
 
@@ -29,6 +32,11 @@ public class Grid {
             for(int j = 0; j < MAP_HEIGHT; j++){
                 grid[i][j] = 1;
                 worm_grid[i][j] = 0;
+                Color baseColor;
+                int variation = (int)(Math.random() * 20) - 10; // Random variation between -10 and +10
+                color_grid[i][j] = new Color(Math.max(0, Math.min(255, Screen.DIRT_COLOR_0.getRed() + variation)),
+                                           Math.max(0, Math.min(255, Screen.DIRT_COLOR_0.getGreen() + variation)),
+                                           Math.max(0, Math.min(255, Screen.DIRT_COLOR_0.getBlue() + variation)));
             }
         }
 

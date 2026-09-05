@@ -14,7 +14,9 @@ public class Screen {
     GameMap map;
     public Player player;
     Grid grid;
-    public static final Color DIRT_COLOR = new Color(97, 52, 0);
+
+    public static final Color DIRT_COLOR_0 = new Color(61, 30, 0);
+    public static final Color DIRT_COLOR_1 = new Color(97, 52, 0);
 
     private static final int VIEWPORT_WIDTH = 1080;
     private static final int VIEWPORT_HEIGHT = 720;
@@ -30,7 +32,7 @@ public class Screen {
         frame = new JFrame("example");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        Color backgroundColor = DIRT_COLOR;
+        Color backgroundColor = DIRT_COLOR_0;
         frame.getContentPane().setBackground(backgroundColor);
 
         frame.setLayout(null);
