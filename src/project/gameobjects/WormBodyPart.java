@@ -1,4 +1,5 @@
 package project.gameobjects;
+import project.UI.Grid;
 import project.UI.Grid.Direction;
 import project.utilities.Vector;
 
@@ -13,6 +14,7 @@ public class WormBodyPart {
         this.x = x;
         this.y = y;
         this.direction = direction;
+        Grid.worm_grid[x][y] = 1; // Mark the grid position as occupied by the worm
     }
 
     // Getters and setters

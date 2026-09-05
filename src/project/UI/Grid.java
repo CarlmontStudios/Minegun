@@ -3,9 +3,10 @@ package project.UI;
 public class Grid {
 
     //in grid blocks not pixels
-    public final int MAP_WIDTH = 100;
-    public final int MAP_HEIGHT = 1000;
-    public final int[][] grid = new int[MAP_WIDTH][MAP_HEIGHT];
+    public static final int MAP_WIDTH = 100;
+    public static final int MAP_HEIGHT = 1000;
+    public static final int[][] grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
+    public static final int[][] worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
     public static final int BLOCK_SIZE = 40; //in pixels
 
 
@@ -18,6 +19,8 @@ public class Grid {
     }
 
     public Grid(){
+        // grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
+        // worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
         initializeGrid();
     }
 
@@ -25,6 +28,7 @@ public class Grid {
         for(int i = 0; i < MAP_WIDTH; i++){
             for(int j = 0; j < MAP_HEIGHT; j++){
                 grid[i][j] = 1;
+                worm_grid[i][j] = 0;
             }
         }
 
@@ -51,5 +55,9 @@ public class Grid {
             default:
                 return Direction.UP; //should never happen
         }
+    }
+
+    public static boolean wormCanSpawn(int x, int y){
+        return worm_grid[x][y] == 0 && grid[x][y] == 1;
     }
 }
