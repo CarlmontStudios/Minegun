@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
 import project.gameobjects.Item;
 
@@ -15,6 +14,8 @@ public class Hotbar extends JPanel {
     public static final int HOTBAR_SQUARE_LENGTH = 80; // Length of each slot in the hotbar
     public static final int HOTBAR_HEIGHT = HOTBAR_SQUARE_LENGTH; // Height of the hotbar
     public static final int HOTBAR_WIDTH = HOTBAR_SQUARE_LENGTH * HOTBAR_SIZE; // Width of the hotbar
+
+    public static int selectedSlot = 0; // Index of the currently selected slot (0 to HOTBAR_SIZE - 1)
     private Item[] items;
     private int[] itemQuantities;
     
@@ -38,5 +39,8 @@ public class Hotbar extends JPanel {
                 g2d.setStroke(new BasicStroke(10));
                 g2d.drawRect(x, 0, HOTBAR_SQUARE_LENGTH, HOTBAR_SQUARE_LENGTH);
             }
+        g2d.setColor(Color.GREEN);
+        g2d.setStroke(new BasicStroke(10));
+        g2d.drawRect(HOTBAR_SQUARE_LENGTH * Hotbar.selectedSlot, 0, HOTBAR_SQUARE_LENGTH, HOTBAR_SQUARE_LENGTH);
     }
 }

@@ -76,6 +76,7 @@ public class Screen {
                 Controls.initializeControls(frame, gameMap);
                 player = new Player();
                 Hotbar hotbar = new Hotbar();
+                Hotbar.selectedSlot = 0; // Initialize selected slot to 0
                 int hotbarX = (VIEWPORT_WIDTH - Hotbar.HOTBAR_WIDTH) / 2;
                 int hotbarY = VIEWPORT_HEIGHT - Hotbar.HOTBAR_HEIGHT - 50;
 

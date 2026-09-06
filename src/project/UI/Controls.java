@@ -29,6 +29,24 @@ public class Controls {
                     }
                 
                 }
+                if (e.getKeyCode() == KeyEvent.VK_1) {
+                    Hotbar.selectedSlot = 0;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_2) {
+                    Hotbar.selectedSlot = 1;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_3) {
+                    Hotbar.selectedSlot = 2;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_4) {
+                    Hotbar.selectedSlot = 3;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_5) {
+                    Hotbar.selectedSlot = 4;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_6) {
+                    Hotbar.selectedSlot = 5;
+                }
 
                 // TESTING
                 if (e.getKeyCode() == KeyEvent.VK_C) {
