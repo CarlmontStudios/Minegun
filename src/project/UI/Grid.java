@@ -8,6 +8,7 @@ public class Grid {
     public static final int MAP_WIDTH = 100;
     public static final int MAP_HEIGHT = 1000;
     public static final int[][] grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
+    public static final int[][] hitbox_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for hitboxes
     public static final int[][] worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
     public static final Color[][] color_grid = new Color[MAP_WIDTH][MAP_HEIGHT]; //grid for block colors
     public static final int BLOCK_SIZE = 40; //in pixels
@@ -25,6 +26,7 @@ public class Grid {
         // grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
         // worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
         initializeGrid();
+        
     }
 
     public void initializeGrid(){
