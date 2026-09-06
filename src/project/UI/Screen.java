@@ -14,6 +14,7 @@ public class Screen {
     GameMap map;
     public Player player;
     Grid grid;
+    JLayeredPane gamePanel;
 
     public static final Color DIRT_COLOR_0 = new Color(40, 20, 0);
     public static final Color DIRT_COLOR_1 = new Color(61, 30, 0);
@@ -24,6 +25,7 @@ public class Screen {
 
     public Screen() {
         grid = new Grid();
+        gamePanel = new JLayeredPane();
         initializeFrame();
     }
 
@@ -56,17 +58,30 @@ public class Screen {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Button was clicked");
                 button.setVisible(false);
+                
+                frame.add(gamePanel);
+                gamePanel.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
                 // panel is now fixed at the viewport size -- the grid scrolls
                 // underneath it via translate, not by moving the panel itself
                 map = new GameMap();
                 map.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                frame.add(map);
+                gamePanel.add(map, JLayeredPane.DEFAULT_LAYER);
+                //frame.getContentPane().setComponentZOrder(map, 1);
                 map.setVisible(true);
                 frame.remove(button);
 
                 Controls.initializeControls(frame, map);
                 player = new Player();
+                Hotbar hotbar = new Hotbar();
+                int hotbarX = (VIEWPORT_WIDTH - Hotbar.HOTBAR_WIDTH) / 2;
+                int hotbarY = VIEWPORT_HEIGHT - Hotbar.HOTBAR_HEIGHT - 50;
+
+                
+                gamePanel.add(hotbar, JLayeredPane.PALETTE_LAYER);
+                hotbar.setBounds(hotbarX, hotbarY, Hotbar.HOTBAR_WIDTH, Hotbar.HOTBAR_HEIGHT);
+                //frame.getContentPane().setComponentZOrder(hotbar, 0);
+                hotbar.setVisible(true);
                 frame.revalidate();
                 frame.repaint();
                 frame.requestFocusInWindow();
