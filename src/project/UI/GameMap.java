@@ -8,8 +8,9 @@ import project.gameobjects.Player;
 
 public class GameMap extends JPanel {
 
-    private final int viewportWidth = Screen.VIEWPORT_WIDTH;
-    private final int viewportHeight = Screen.VIEWPORT_HEIGHT;
+    private static final int viewportWidth = Screen.VIEWPORT_WIDTH;
+    private static final int viewportHeight = Screen.VIEWPORT_HEIGHT;
+    public static final Player[] player = new Player[1]; //cool hack to allow player to be treated as static without making it static
 
     public GameMap() {
         setBackground(Color.BLACK);
@@ -27,8 +28,8 @@ public class GameMap extends JPanel {
         // player's current pixel position always lands in the middle of
         // the visible area. This is recalculated every frame, so it works
         // for the very first frame too (no separate "starting bounds" needed).
-        int deltaX = (int) (viewportWidth / 2 - Player.getPixelX());
-        int deltaY = (int) (viewportHeight / 2 - Player.getPixelY());
+        int deltaX = (int) (viewportWidth / 2 - GameMap.player[0].getPixelX());
+        int deltaY = (int) (viewportHeight / 2 - GameMap.player[0].getPixelY());
 
         g2d.translate(deltaX, deltaY);
 
@@ -57,7 +58,8 @@ public class GameMap extends JPanel {
         // were derived specifically to center the player, this lands it in
         // the middle of the viewport every frame without any extra math
         g2d.setColor(Player.PLAYER_COLOR);
-        g2d.fillRect((int) Player.getPixelX(), (int) Player.getPixelY(),
-                     Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);
+        g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
+                     Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
     }
+
 }

@@ -3,15 +3,13 @@ package project.UI;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
-import javax.swing.Timer;
-import project.gameobjects.Player;
 
 public class Controls {
 
-    private static boolean leftPressed = false;
-    private static boolean rightPressed = false;
+    public static boolean leftPressed = false;
+    public static boolean rightPressed = false;
 
-    private static final int MOVE_SPEED = 4; // pixels per tick for A/D
+    public static final int MOVE_SPEED = 4; // pixels per tick for A/D
 
     public static void initializeControls(JFrame frame, GameMap map) {
 
@@ -25,16 +23,20 @@ public class Controls {
                     rightPressed = true;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    Player.startJump();
+                    //System.out.println(GameMap.player[0].isGrounded());
+                    if (GameMap.player[0] != null && GameMap.player[0].isGrounded()) {
+                        GameMap.player[0].startJump();
+                    }
+                
                 }
 
                 // TESTING
                 if (e.getKeyCode() == KeyEvent.VK_C) {
-                    Player.setPixelY(Player.getPixelY()+250);
-                    System.out.println(Player.getPixelY());
+                    GameMap.player[0].setPixelY(GameMap.player[0].getPixelY()+250);
+                    System.out.println(GameMap.player[0].getPixelY());
                 }
                 if (e.getKeyCode() == KeyEvent.VK_V) {
-                    Player.setPixelY(Player.getPixelY()-250);
+                    GameMap.player[0].setPixelY(GameMap.player[0].getPixelY()-250);
                 }
             }
 
@@ -53,20 +55,7 @@ public class Controls {
                 // required by interface, unused
             }
         });
-        //TODO: We might want to change this to deal with falling (right now you can jump up and down but can't fall)
-        // drives both horizontal movement and the jump arc
-        Timer physicsTimer = new Timer(16, e -> {
-            if (leftPressed) {
-                Player.moveLeft(MOVE_SPEED);
-            }
-            if (rightPressed) {
-                Player.moveRight(MOVE_SPEED);
-            }
 
-            Player.updateJump();
-
-            map.repaint();
-        });
-        physicsTimer.start();
+       
     }
 }

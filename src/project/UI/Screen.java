@@ -11,7 +11,8 @@ import project.gameobjects.Player;
 public class Screen {
     JFrame frame;
     JButton button;
-    GameMap map;
+    public static final GameMap map[] = new GameMap[1]; //cool hack to allow map to be treated as static without making it static
+    private GameMap gameMap;
     public Player player;
     Grid grid;
     JLayeredPane gamePanel;
@@ -64,14 +65,15 @@ public class Screen {
 
                 // panel is now fixed at the viewport size -- the grid scrolls
                 // underneath it via translate, not by moving the panel itself
-                map = new GameMap();
-                map.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                gamePanel.add(map, JLayeredPane.DEFAULT_LAYER);
+                Screen.map[0] = new GameMap();
+                gameMap = Screen.map[0];
+                gameMap.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+                gamePanel.add(gameMap, JLayeredPane.DEFAULT_LAYER);
                 //frame.getContentPane().setComponentZOrder(map, 1);
-                map.setVisible(true);
+                gameMap.setVisible(true);
                 frame.remove(button);
 
-                Controls.initializeControls(frame, map);
+                Controls.initializeControls(frame, gameMap);
                 player = new Player();
                 Hotbar hotbar = new Hotbar();
                 int hotbarX = (VIEWPORT_WIDTH - Hotbar.HOTBAR_WIDTH) / 2;
