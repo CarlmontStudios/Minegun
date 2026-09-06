@@ -36,8 +36,8 @@ public class Grid {
                 int variation_r = (int)(Math.random() * 4) - 2; // Random variation between -4 and +4
                 int variation_g = (int)(Math.random() * 4) - 2; // Random variation between -4 and +4
                 color_grid[i][j] = new Color(
-                    Math.max(0, Math.min(255, baseColor.getRed() + variation_r)),
-                    Math.max(0, Math.min(255, baseColor.getGreen() + variation_g)),
+                    Math.max(0, Math.min(255, baseColor.getRed() + variation_r+70-(j/25))),
+                    Math.max(0, Math.min(255, baseColor.getGreen() + variation_g+20-(j/45))),
                     0);
             }
         }

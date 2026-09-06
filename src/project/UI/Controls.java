@@ -27,6 +27,15 @@ public class Controls {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     Player.startJump();
                 }
+
+                // TESTING
+                if (e.getKeyCode() == KeyEvent.VK_C) {
+                    Player.setPixelY(Player.getPixelY()+250);
+                    System.out.println(Player.getPixelY());
+                }
+                if (e.getKeyCode() == KeyEvent.VK_V) {
+                    Player.setPixelY(Player.getPixelY()-250);
+                }
             }
 
             @Override

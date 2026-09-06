@@ -109,6 +109,13 @@ public class Player {
         return pixelY;
     }
 
+    public static void setPixelX(double x) {
+        pixelX = x;
+    }
+    public static void setPixelY(double y) {
+        pixelY = y;
+    }
+
     /** Which grid square (whole block number, origin top-left) the player is in. */
     public static int getGridX() {
          return (int) Math.floor(pixelX / Grid.BLOCK_SIZE);
