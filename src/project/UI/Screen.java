@@ -15,11 +15,12 @@ public class Screen {
     public Player player;
     Grid grid;
 
-    public static final Color DIRT_COLOR_0 = new Color(61, 30, 0);
-    public static final Color DIRT_COLOR_1 = new Color(97, 52, 0);
+    public static final Color DIRT_COLOR_0 = new Color(40, 20, 0);
+    public static final Color DIRT_COLOR_1 = new Color(61, 30, 0);
+    public static final Color DIRT_COLOR_2 = new Color(97, 52, 0);
 
-    private static final int VIEWPORT_WIDTH = 1080;
-    private static final int VIEWPORT_HEIGHT = 720;
+    public static final int VIEWPORT_WIDTH = 1080;
+    public static final int VIEWPORT_HEIGHT = 720;
 
     public Screen() {
         grid = new Grid();
@@ -32,7 +33,7 @@ public class Screen {
         frame = new JFrame("example");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        Color backgroundColor = DIRT_COLOR_0;
+        Color backgroundColor = DIRT_COLOR_2;
         frame.getContentPane().setBackground(backgroundColor);
 
         frame.setLayout(null);
@@ -58,7 +59,7 @@ public class Screen {
 
                 // panel is now fixed at the viewport size -- the grid scrolls
                 // underneath it via translate, not by moving the panel itself
-                map = new GameMap(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+                map = new GameMap();
                 map.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
                 frame.add(map);
                 map.setVisible(true);

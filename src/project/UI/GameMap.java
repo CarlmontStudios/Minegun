@@ -8,12 +8,10 @@ import project.gameobjects.Player;
 
 public class GameMap extends JPanel {
 
-    private final int viewportWidth;
-    private final int viewportHeight;
+    private final int viewportWidth = Screen.VIEWPORT_WIDTH;
+    private final int viewportHeight = Screen.VIEWPORT_HEIGHT;
 
-    public GameMap(int viewportWidth, int viewportHeight) {
-        this.viewportWidth = viewportWidth;
-        this.viewportHeight = viewportHeight;
+    public GameMap() {
         setBackground(Color.BLACK);
     }
 
