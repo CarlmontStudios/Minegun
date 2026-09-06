@@ -17,6 +17,7 @@ public class Worm {
     private Type type;
     private int x; //represents x and y coordinates of the head of the worm
     private int y;
+    private int step;
 
     //coordinates of the worm in pixels, used for movement
     private int pixelCoordsX; 
@@ -37,14 +38,19 @@ public class Worm {
         body = new WormBodyPart[length];
         for (int i = 0; i < length; i++) {
             Direction direction;
-            int partX = x;
-            int partY = y;
+            
+            int partX = 0;
+            int partY = 0;
+            int testX = 0;
+            int testY = 0;
             if (i == 0){
                 direction = headDirection; // Assuming the body parts follow the head's direction
+                testX = x;
+                testY = y; // only initialize to the values for head if it is actually the head
             }
             else {
-                int testX;
-                int testY;
+                partX = body[i-1].getX();
+                partY= body[i-1].getY();
                 direction = retrieveDirectionForBodyPart(i); // Get direction for the current body part
                 //make it so that the body part is facing the previous body part
                 switch (direction) {
@@ -93,7 +99,7 @@ public class Worm {
                 
             }
 
-            body[i] = new WormBodyPart(partX, partY, direction);
+            body[i] = new WormBodyPart(testX, testY, direction);
         }
     }
     
@@ -124,7 +130,7 @@ public class Worm {
                 throw new IllegalArgumentException("Invalid direction: " + frontDirection);
         }
         Direction d = frontDirection; // Initialize d to frontDirection to enter the loop
-        while(d != impossibleDirection){
+        while(d == impossibleDirection){
             d = Grid.getRandomDirection();
         }
 
@@ -132,7 +138,39 @@ public class Worm {
     }
 
     //#region MOVEMENT
-    
+    public void moveForward() {
+
+        for (int i = body.length - 1; i > 0; i++) {
+            body[i].setX(body[i-1].getX());
+            body[i].setY(body[i-1].getY()); // because a part should always be moving towards the part directly in front of it
+            
+            switch(body[i-1].getDirection()) {
+                case UP:
+                    body[i].setDirection(Direction.UP);
+                case DOWN:
+                    body[i].setDirection(Direction.DOWN);
+                case LEFT:
+                    body[i].setDirection(Direction.LEFT);
+                case RIGHT:
+                    body[i].setDirection(Direction.RIGHT);
+                default:
+                    System.out.println("TODO: Put whatever is supposed to be here.");  
+            }
+        }
+
+        switch(body[0].getDirection()) {
+                case UP:
+                    body[0].setY(body[0].getY()-1);
+                case DOWN:
+                    body[0].setY(body[0].getY()+1);
+                case LEFT:
+                    body[0].setX(body[0].getX()-1);
+                case RIGHT:
+                    body[0].setX(body[0].getX()+1);
+                default:
+                    System.out.println("TODO: Put whatever is supposed to be here.");  
+            }
+    }
 
     
 }
