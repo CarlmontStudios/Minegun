@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 
 public class Screen {
     JFrame frame;
-    JButton button;
+    JButton startButton;
 
     public Screen() {
         initializeFrame();
@@ -33,22 +33,22 @@ public class Screen {
                 frame.setFocusable(true);
             frame.requestFocusInWindow();
 
-            JButton button = new JButton("Start");
-            button.setBackground(new Color(70, 70, 70));
-            button.setForeground(Color.BLACK);
-            button.setFont(new Font("Arial", Font.BOLD, 14));
-            button.setPreferredSize(new Dimension(150, 40));
-            button.setBounds(300, 300, 150, 50);
-            button.setVisible(true);
+            JButton startButton = new JButton("Start");
+            startButton.setBackground(new Color(70, 70, 70));
+            startButton.setForeground(Color.BLACK);
+            startButton.setFont(new Font("Arial", Font.BOLD, 50));
+            startButton.setPreferredSize(new Dimension(150, 40));
+            startButton.setBounds(390, 500, 300, 150);
+            startButton.setVisible(true);
 
-            button.addActionListener(new ActionListener() {
+            startButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("Button was clicked");
                 }
             });
             
-            frame.add(button);
+            frame.add(startButton);
             frame.setVisible(true);
     }
 }
