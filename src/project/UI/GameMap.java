@@ -82,6 +82,14 @@ public class GameMap extends JPanel {
                 g2d.fillRect(x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE);
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE);
+
+                if (Grid.block_sprite_grid[i][j] != null && Grid.grid[i][j] == 1) {
+                    try {
+                        g2d.drawImage(Grid.block_sprite_grid[i][j].getImage(), x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
 

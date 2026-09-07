@@ -1,12 +1,9 @@
 package project.UI;
 
 import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.awt.Graphics2D;
-import java.awt.Graphics;
+import javax.imageio.ImageIO;
 
 public class Sprite {
     BufferedImage image;
@@ -17,6 +14,9 @@ public class Sprite {
     int pixelY;
     int width;
     int height;
+
+    public static final String CRACKED_0 = "src/images/cracked_0.png";
+    public static final String CRACKED_1 = "src/images/cracked_1.png";
 
     public Sprite(String imagePath, int width, int height) throws IOException{
         this.imagePath = imagePath;
@@ -38,5 +38,61 @@ public class Sprite {
         this.y = y;
         pixelX = 0;
         pixelY = 0;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+    public String getImagePath() {
+        return imagePath;
+    }
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+    public int getX() {
+        return x;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public int getY() {
+        return y;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    public int getPixelX() {
+        return pixelX;
+    }
+    public void setPixelX(int pixelX) {
+        this.pixelX = pixelX;
+    }
+    public int getPixelY() {
+        return pixelY;
+    }
+    public void setPixelY(int pixelY) {
+        this.pixelY = pixelY;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public int getPixelWidth() {
+        return width * Grid.BLOCK_SIZE;
+    }
+    public int getPixelHeight() {
+        return height * Grid.BLOCK_SIZE;
     }
 }

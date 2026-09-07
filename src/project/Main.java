@@ -16,7 +16,7 @@ public class Main {
 
                 if (Controls.leftClickPressed) {
                     //for mining
-                    if (Controls.miningCooldownTimer <= 0){
+                    if (Hotbar.selectedSlot == 0 && Controls.miningCooldownTimer <= 0){
 
                         Controls.miningCooldownTimer = Controls.MINING_COOLDOWN; // reset cooldown
                         //System.out.println("projectile firing");
