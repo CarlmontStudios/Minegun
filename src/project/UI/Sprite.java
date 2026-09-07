@@ -18,6 +18,7 @@ public class Sprite {
     public static final String CRACKED_0 = "src/images/cracked_0.png";
     public static final String CRACKED_1 = "src/images/cracked_1.png";
     public static final String PICKAXE_HOVER = "src/images/pickaxe_hover.png";
+    public static final String IRON_BLOCK = "src/images/Iron_Block.png";
 
     /**
      * creates a new sprite with grid square units

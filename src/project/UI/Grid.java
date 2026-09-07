@@ -66,7 +66,26 @@ public class Grid {
             }
         }
 
+        generateSpecialBlocks();
+
         
+    }
+
+    private void generateSpecialBlocks(){
+        for (int i = 0; i < MAP_WIDTH; i++) {
+            for (int j = 0; j < MAP_HEIGHT; j++) {
+                if (grid[i][j] == 1) { // Only consider solid blocks
+
+                    double ironChance = Math.random();
+                    double ironChanceMultiplier = (double) j / MAP_HEIGHT;
+                    if (ironChance  < 0.01 * ironChanceMultiplier) { // 1% chance for iron block but decreases as you go up
+                        
+                        block_health_grid[i][j] = 15; //maxHealth of 15 indicates iron block (this will be used for rendering)
+                        block_max_health_grid[i][j] = 15;
+                    }
+                }
+            }
+        }
     }
 
     public static Direction getRandomDirection(){

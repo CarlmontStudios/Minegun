@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import project.gameobjects.Player;
 
@@ -24,6 +26,9 @@ public class GameMap extends JPanel {
     //sprites that load in at the start
     Sprite mouseHoverSprite;
     String hoverSpritePath;
+
+
+    
 
 
     public GameMap() {
@@ -63,12 +68,21 @@ public class GameMap extends JPanel {
 
         g2d.translate(deltaX, deltaY);
 
+        //configuring min and max i and j values to make it render only the squares on the screen (ty claude)
+        //i and j still represent the grid coordinates of the blocks, it's just that the for loop will only go through the blocks that would appear in the viewport
+        int minI = (-deltaX) / Grid.BLOCK_SIZE - 1; //the one represents the extra "buffer" layer of rendered blocks that is also rendered around the viewport
+        int maxI = (viewportWidth - deltaX) / Grid.BLOCK_SIZE + 1;
+        int minJ = (-deltaY) / Grid.BLOCK_SIZE - 1;
+        int maxJ = (viewportHeight - deltaY) / Grid.BLOCK_SIZE + 1;
+        minI = Math.max(0, minI);
+        minJ = Math.max(0, minJ);
+        maxI = Math.min(Grid.MAP_WIDTH - 1, maxI);
+        maxJ = Math.min(Grid.MAP_HEIGHT - 1, maxJ);
+
         // width
-        for (int i = 0; i < Grid.MAP_WIDTH; i ++)
-        {
+        for (int i = minI; i < maxI; i ++) {
             // height
-            for (int j= 0; j < Grid.MAP_HEIGHT; j ++)
-            {
+            for (int j = minJ; j < maxJ; j ++) {
                 // draw each square in the grid
                 int x = i * Grid.BLOCK_SIZE;
                 int y = j * Grid.BLOCK_SIZE;
@@ -83,11 +97,21 @@ public class GameMap extends JPanel {
                     g2d.setColor(Color.BLACK);
                 }
 
+                //fill in the block with dirt
                 g2d.fillRect(x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE);
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE);
 
+                //draw block sprites---------------------------------------------
+                if (Grid.block_max_health_grid[i][j] == 15 && Grid.grid[i][j] == 1) { // Check if the block is an iron block
+                    try {
+                        g2d.drawImage(ImageIO.read(new File(Sprite.IRON_BLOCK)), x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 if (Grid.block_sprite_grid[i][j] != null && Grid.grid[i][j] == 1) {
+                    
                     try {
                         g2d.drawImage(Grid.block_sprite_grid[i][j].getImage(), x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, null);
                     } catch (Exception e) {
@@ -145,5 +169,6 @@ public class GameMap extends JPanel {
     public static int getMouseY() {
         return mouseScreenY - deltaY; // subtract deltaY to get the mouse position in world coordinates
     }
+    
 
 }

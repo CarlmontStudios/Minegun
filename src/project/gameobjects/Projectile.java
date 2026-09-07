@@ -132,7 +132,7 @@ public class Projectile {
             crackedSpritePath = Sprite.CRACKED_0; // Path to the more cracked sprite image
         }
         try {
-            Grid.block_sprite_grid[blockX][blockY] = new Sprite(crackedSpritePath, 1, 1);
+            Grid.block_sprite_grid[blockX][blockY] = new Sprite(crackedSpritePath, blockX, blockY, 1, 1);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
