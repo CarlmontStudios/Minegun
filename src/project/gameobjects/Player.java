@@ -6,7 +6,6 @@ import project.UI.Controls;
 import project.UI.GameMap;
 import project.UI.Grid;
 import project.UI.Hitbox;
-import project.UI.Screen;
 
 public class Player {
 
@@ -65,7 +64,6 @@ public class Player {
 
             updateJump();
 
-            Screen.map[0].repaint();
         });
         physicsTimer.start();
     }
@@ -141,6 +139,13 @@ public class Player {
     }
     public int getPixelY() {
         return pixelY;
+    }
+
+    public int getX() {
+        return pixelX / Grid.BLOCK_SIZE;
+    }
+    public int getY() {
+        return pixelY / Grid.BLOCK_SIZE;
     }
 
     public void setPixelX(int x) {

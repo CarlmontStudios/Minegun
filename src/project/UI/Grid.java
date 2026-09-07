@@ -13,7 +13,7 @@ public class Grid {
 
     //public static final Hitbox[][] hitbox_grid = new Hitbox[MAP_WIDTH][MAP_HEIGHT]; //grid for hitboxes
     public static final int[][] worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
-    
+    public static final int[][] block_health_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for block health
     public static final Color[][] color_grid = new Color[MAP_WIDTH][MAP_HEIGHT]; //grid for block colors
     public static final int BLOCK_SIZE = 40; //in pixels
 
@@ -38,6 +38,7 @@ public class Grid {
             for(int j = 0; j < MAP_HEIGHT; j++){
                 grid[i][j] = 1;
                 worm_grid[i][j] = 0;
+                block_health_grid[i][j] = 5;
                 Color baseColor = Screen.DIRT_COLOR_0; //TODO: make variation depending on y level
                 int variation_r = (int)(Math.random() * 4) - 2; // Random variation between -4 and +4
                 int variation_g = (int)(Math.random() * 4) - 2; // Random variation between -4 and +4

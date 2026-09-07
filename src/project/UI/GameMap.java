@@ -2,8 +2,11 @@ package project.UI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 import project.gameobjects.Player;
+
 
 
 public class GameMap extends JPanel {
@@ -12,8 +15,31 @@ public class GameMap extends JPanel {
     private static final int viewportHeight = Screen.VIEWPORT_HEIGHT;
     public static final Player[] player = new Player[1]; //cool hack to allow player to be treated as static without making it static
 
+
+    private static int mouseScreenX;
+    private static int mouseScreenY;
+    private static int deltaX;
+    private static int deltaY;
+
+
     public GameMap() {
         setBackground(Color.BLACK);
+        MouseMotionAdapter mouseTracker = new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mouseScreenX = e.getX();
+                mouseScreenY = e.getY();
+            }
+ 
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                mouseScreenX = e.getX();
+                mouseScreenY = e.getY();
+            }
+        };
+        addMouseMotionListener(mouseTracker);
+        
+    
     }
 
     @Override
@@ -28,8 +54,8 @@ public class GameMap extends JPanel {
         // player's current pixel position always lands in the middle of
         // the visible area. This is recalculated every frame, so it works
         // for the very first frame too (no separate "starting bounds" needed).
-        int deltaX = (int) (viewportWidth / 2 - GameMap.player[0].getPixelX());
-        int deltaY = (int) (viewportHeight / 2 - GameMap.player[0].getPixelY());
+        deltaX = (int) (viewportWidth / 2 - GameMap.player[0].getPixelX());
+        deltaY = (int) (viewportHeight / 2 - GameMap.player[0].getPixelY());
 
         g2d.translate(deltaX, deltaY);
 
@@ -42,6 +68,11 @@ public class GameMap extends JPanel {
                 // draw each square in the grid
                 int x = i * Grid.BLOCK_SIZE;
                 int y = j * Grid.BLOCK_SIZE;
+
+                if (Grid.block_health_grid[i][j] <= 0) {
+                    Grid.grid[i][j] = 0; // Set the block to empty
+                }
+                
                 if(Grid.grid[i][j] == 1){
                     g2d.setColor(Grid.color_grid[i][j]);
                 } else if (Grid.grid[i][j] == 0){
@@ -60,6 +91,22 @@ public class GameMap extends JPanel {
         g2d.setColor(Player.PLAYER_COLOR);
         g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
                      Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
+    }
+
+    /**
+     * returns the x coordinates of the mouse on the map (in pixels)
+     * @return
+     */
+    public static int getMouseX() {
+        return mouseScreenX - deltaX; // subtract deltaX to get the mouse position in world coordinates
+    }
+
+    /**
+     * returns the y coordinates of the mouse on the map (in pixels)
+     * @return
+     */
+    public static int getMouseY() {
+        return mouseScreenY - deltaY; // subtract deltaY to get the mouse position in world coordinates
     }
 
 }

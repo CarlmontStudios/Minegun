@@ -18,10 +18,12 @@ public class Hotbar extends JPanel {
     public static int selectedSlot = 0; // Index of the currently selected slot (0 to HOTBAR_SIZE - 1)
     private Item[] items;
     private int[] itemQuantities;
+    private Sprite[] itemSprites;
     
     public Hotbar() {
         items = new Item[HOTBAR_SIZE]; // Assuming a hotbar with 6 slots
         itemQuantities = new int[HOTBAR_SIZE];
+        itemSprites = new Sprite[HOTBAR_SIZE];
         setOpaque(false); // Make the hotbar transparent
     }
 

@@ -2,12 +2,18 @@ package project.UI;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 
 public class Controls {
 
     public static boolean leftPressed = false;
     public static boolean rightPressed = false;
+    public static boolean leftClickPressed = false;
+
+    public static final double MINING_COOLDOWN = 0.2; // seconds
+    public static double miningCooldownTimer = 0; // seconds
 
     public static final int MOVE_SPEED = 4; // pixels per tick for A/D
 
@@ -67,13 +73,31 @@ public class Controls {
                     rightPressed = false;
                 }
             }
-
+ 
             @Override
             public void keyTyped(KeyEvent e) {
                 // required by interface, unused
             }
         });
 
+        map.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftClickPressed = true;
+                    
+                }
+            }
+ 
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftClickPressed = false;
+                }
+            }
+        });
+
        
     }
+
 }

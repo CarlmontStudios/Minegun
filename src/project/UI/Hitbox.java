@@ -1,5 +1,7 @@
 package project.UI;
 
+import project.utilities.Vector;
+
 public class Hitbox {
     int x;
     int y;
@@ -9,7 +11,11 @@ public class Hitbox {
     int pixelWidth;
     int height;
     int pixelHeight;
+    boolean isActive; //determines whether this hitbox can be involved in collisions
 
+    /*
+     * Creates a new Hitbox with the specified properties (in grid squares).
+     */
     public Hitbox(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -19,13 +25,32 @@ public class Hitbox {
         pixelY = y*40;
         pixelWidth = width*40;
         pixelHeight = height*40;
+        this.isActive = true;
+    }
+    /*
+     * Creates a new Hitbox with the specified properties (in pixels)
+     * 
+     * 
+     */
+    public Hitbox(int x, int y, int width, int height, boolean isActive) {
+        this.pixelX = x;
+        this.pixelY = y;
+        this.pixelWidth = width;
+        this.pixelHeight = height;
+        this.x = x/40;
+        this.y = y/40;
+        this.width = width/40;
+        this.height = height/40;
+        this.isActive = isActive;
     }
 
     public boolean isColliding(Hitbox other) {
-        return this.pixelX < other.pixelX + other.pixelWidth &&
+
+        return other.isActive() && 
+               this.pixelX < other.pixelX + other.pixelWidth &&
                this.pixelX + this.pixelWidth > other.pixelX &&
                this.pixelY < other.pixelY + other.pixelHeight &&
-               this.pixelY + this.pixelHeight > other.pixelY;
+               this.pixelY + this.pixelHeight > other.pixelY ;
     }
 
     public boolean collidingWithSolidBlock(){
@@ -43,6 +68,26 @@ public class Hitbox {
         return false;
     }
 
+    public static Vector getCollidedBlock(Hitbox hitbox){
+        int lowerX = hitbox.pixelX;
+        int upperX = hitbox.pixelX + hitbox.pixelWidth;
+        int lowerY = hitbox.pixelY;
+        int upperY = hitbox.pixelY + hitbox.pixelHeight;
+        //System.out.println("lowerX: " + lowerX + ", upperX: " + upperX + ", lowerY: " + lowerY + ", upperY: " + upperY);
+        for (int i = lowerX; i < upperX; i++) {
+            for (int j = lowerY; j < upperY; j++) {
+                int x = i/40;
+                int y = j/40;
+                if (Grid.grid[x][y] == 1) { 
+                    //System.out.println("Collided with block at (" + x + ", " + y + ")");
+                    return new Vector(x, y);
+                }
+            }
+        }
+        //System.out.println("No block collision detected for hitbox at (" + hitbox.pixelX + ", " + hitbox.pixelY + ")");
+        return null;
+    }
+
     public static boolean collidingWithSolidBlock(int pixelX, int pixelY){
         int lowerX = pixelX / 40;
         // int upperX = (int) Math.ceil(pixelX / 40.0);
@@ -52,6 +97,12 @@ public class Hitbox {
     }
 
 
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    public boolean isActive() {
+        return isActive;
+    }
     public void setX(int x) {
         this.x = x;
         this.pixelX = x * 40;

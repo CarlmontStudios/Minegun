@@ -2,8 +2,8 @@ package project.utilities;
 
 public class Vector {
 
-    private double x;
-    private double y;
+    private int x;
+    private int y;
     private double theta;
     private double magnitude;
 
@@ -13,7 +13,7 @@ public class Vector {
      * @param x
      * @param y
      */
-    public Vector(double x, double y)
+    public Vector(int x, int y)
     {
         this.x = x;
         this.y = y;
@@ -30,10 +30,10 @@ public class Vector {
     }
 
 
-    public double getX() {
+    public int getX() {
         return x;
     }
-    public double getY() {
+    public int getY() {
         return y;
     }
     public double getTheta() {
