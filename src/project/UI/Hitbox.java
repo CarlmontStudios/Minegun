@@ -1,5 +1,6 @@
 package project.UI;
 
+import java.util.ArrayList;
 import project.utilities.Vector;
 
 public class Hitbox {
@@ -87,6 +88,40 @@ public class Hitbox {
         //System.out.println("No block collision detected for hitbox at (" + hitbox.pixelX + ", " + hitbox.pixelY + ")");
         return null;
     }
+
+    /**
+     * returns a list of all the blocks a hitbox is colliding with (in grid coordinates)
+     * @param hitbox
+     * @return
+     */
+    public static ArrayList<Vector> getCollidedBlocks(Hitbox hitbox){
+        int lowerX = hitbox.pixelX;
+        int upperX = hitbox.pixelX + hitbox.pixelWidth;
+        int lowerY = hitbox.pixelY;
+        int upperY = hitbox.pixelY + hitbox.pixelHeight;
+        ArrayList<Vector> collidedBlocks = new ArrayList<>();
+        //System.out.println("lowerX: " + lowerX + ", upperX: " + upperX + ", lowerY: " + lowerY + ", upperY: " + upperY);
+        for (int i = lowerX; i < upperX; i++) {
+            for (int j = lowerY; j < upperY; j++) {
+                int x = i/40;
+                int y = j/40;
+                if (Grid.grid[x][y] == 1) { 
+                    if (collidedBlocks != null && !collidedBlocks.contains(new Vector(x, y))) {
+                        collidedBlocks.add(new Vector(x, y));
+                    }
+                }
+            }
+        }
+        //System.out.println("No block collision detected for hitbox at (" + hitbox.pixelX + ", " + hitbox.pixelY + ")");
+        return collidedBlocks;
+    }
+
+    /**
+     * returns true if the given pixel coordinates are colliding with a solid block
+     * @param pixelX
+     * @param pixelY
+     * @return
+     */
 
     public static boolean collidingWithSolidBlock(int pixelX, int pixelY){
         int lowerX = pixelX / 40;

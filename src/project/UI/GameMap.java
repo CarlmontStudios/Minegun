@@ -21,6 +21,10 @@ public class GameMap extends JPanel {
     private static int deltaX;
     private static int deltaY;
 
+    //sprites that load in at the start
+    Sprite mouseHoverSprite;
+    String hoverSpritePath;
+
 
     public GameMap() {
         setBackground(Color.BLACK);
@@ -99,6 +103,31 @@ public class GameMap extends JPanel {
         g2d.setColor(Player.PLAYER_COLOR);
         g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
                      Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
+        
+        //for loading sprites
+        if (Hotbar.selectedSlot == 0) {
+            hoverSpritePath = Sprite.PICKAXE_HOVER; // Path to the pickaxe sprite image
+        }
+        else {
+            hoverSpritePath = null; // Clear the hover sprite path when not in the first slot
+            mouseHoverSprite = null; // Clear the mouse hover sprite when not in the first slot
+        }
+        try {
+            mouseHoverSprite = new Sprite(hoverSpritePath, GameMap.getMouseX() - 10, GameMap.getMouseY() - 10, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, true);
+            g2d.drawImage(mouseHoverSprite.getImage(), mouseHoverSprite.getPixelX(), mouseHoverSprite.getPixelY(), mouseHoverSprite.getPixelWidth(), mouseHoverSprite.getPixelHeight(), null);
+            //g2d.drawImage(mouseHoverSprite.getImage(), GameMap.getMouseX(), GameMap.getMouseY(), Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        for (Sprite sprite : Grid.sprites) {
+            if (sprite != null) {
+                try {
+                    g2d.drawImage(sprite.getImage(), sprite.getPixelX(), sprite.getPixelY(), sprite.getPixelWidth(), sprite.getPixelHeight(), null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**

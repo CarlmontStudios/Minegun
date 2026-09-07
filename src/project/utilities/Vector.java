@@ -1,5 +1,7 @@
 package project.utilities;
 
+import java.util.Objects;
+
 public class Vector {
 
     private int x;
@@ -61,11 +63,21 @@ public class Vector {
         y *= -1;
         theta = Math.atan2(y, x);  // Just recalculate theta, don't call orient()
     }
-
-    public boolean equals(Vector other) {
-        return this.x == other.getX() && this.y == other.getY();
+    @Override 
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Vector vector = (Vector) other;
+        return x == vector.x && y == vector.y;
     }
+
+
     public String toString() {
-        return "<" + x + ", " + y + ">, magnitude: " + magnitude + ", theta: " + theta;
+        return "<" + x + ", " + y + ">";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

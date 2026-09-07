@@ -12,7 +12,7 @@ public class Controls {
     public static boolean rightPressed = false;
     public static boolean leftClickPressed = false;
 
-    public static final double MINING_COOLDOWN = 0.2; // seconds
+    public static final double MINING_COOLDOWN = 0.5; // seconds
     public static double miningCooldownTimer = 0; // seconds
 
     public static final int MOVE_SPEED = 4; // pixels per tick for A/D

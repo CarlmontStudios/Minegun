@@ -17,7 +17,15 @@ public class Sprite {
 
     public static final String CRACKED_0 = "src/images/cracked_0.png";
     public static final String CRACKED_1 = "src/images/cracked_1.png";
+    public static final String PICKAXE_HOVER = "src/images/pickaxe_hover.png";
 
+    /**
+     * creates a new sprite with grid square units
+     * @param imagePath
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public Sprite(String imagePath, int width, int height) throws IOException{
         this.imagePath = imagePath;
         this.width = width;
@@ -29,6 +37,15 @@ public class Sprite {
         pixelY = 0;
     }
 
+    /**
+     * creates a new sprite with grid square units and a specific position
+     * @param imagePath
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public Sprite(String imagePath, int x, int y, int width, int height) throws IOException{
         this.imagePath = imagePath;
         image = ImageIO.read(new File(imagePath));
@@ -39,6 +56,29 @@ public class Sprite {
         pixelX = 0;
         pixelY = 0;
     }
+
+    /**
+     * creates a new sprite with pixel units and a specific position
+     * @param imagePath
+     * @param pixelX
+     * @param pixelY
+     * @param pixelWidth
+     * @param pixelHeight
+     * @param pixelUnits
+     * @throws IOException
+     */
+    public Sprite(String imagePath, int pixelX, int pixelY, int pixelWidth, int pixelHeight, boolean pixelUnits) throws IOException{
+        this.imagePath = imagePath;
+        image = ImageIO.read(new File(imagePath));
+        this.pixelX = pixelX;
+        this.pixelY = pixelY;
+        this.x = pixelX / Grid.BLOCK_SIZE;
+        this.y = pixelY / Grid.BLOCK_SIZE;
+        this.width = pixelWidth / Grid.BLOCK_SIZE;
+        this.height = pixelHeight / Grid.BLOCK_SIZE;
+    }
+
+
 
     public BufferedImage getImage() {
         return image;

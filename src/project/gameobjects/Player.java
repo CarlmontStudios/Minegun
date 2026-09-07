@@ -25,13 +25,13 @@ public class Player {
 
     //This is temporary
     //TODO: change the player representation to a sprite
-    //TODO: Also create a hitbox to represent the player
+    
     public static final java.awt.Color PLAYER_COLOR = Color.GREEN;
 
     // --- jump physics ---
-    public static final double MAX_JUMP_HEIGHT = 1.5 * Grid.BLOCK_SIZE; // pixels (1.25 blocks)
+    public static final double MAX_JUMP_HEIGHT = 2.0 * Grid.BLOCK_SIZE; // pixels (1.25 blocks)
     
-    //TODO: We need to make it so that when the player is not on a solid block they will fall down. Fall damage can be implemented later
+   
     public static final double G = 1.5;                           // pixels/tick^2
     // initial upward speed, derived so the natural peak of the arc lands
     // right at MAX_JUMP_HEIGHT (v0 = sqrt(2 * g * h))
