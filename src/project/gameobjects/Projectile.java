@@ -36,6 +36,7 @@ public class Projectile {
 
     public Projectile(Type type) {
         distanceTraveled = 0;
+        //configure the projectile based on the type --------------------------------------
         if (type == Type.MINING_PROJECTILE){
             hitbox = new Hitbox(GameMap.player[0].getPixelX() + (Grid.BLOCK_SIZE / 2), GameMap.player[0].getPixelY() + (Grid.BLOCK_SIZE / 2), Grid.BLOCK_SIZE / 40, Grid.BLOCK_SIZE / 40, false);
             velocity = 12;
@@ -48,7 +49,7 @@ public class Projectile {
             
             
         }
-
+        //run the projectile motion. We can configure the projectile motion's mechanics to work differently based on the projectile type
         timer = new Timer(32, e -> {
                 
                 travel(angle);
@@ -93,6 +94,9 @@ public class Projectile {
         
     }
 
+    /** 
+     * gets the angle from the player to the mouse in radians
+     */
     private double getPlayerToMouseAngle(){
         int X = hitbox.getPixelX();
         int Y = hitbox.getPixelY();
@@ -103,6 +107,7 @@ public class Projectile {
         return angle;
     }
 
+    /** gets the distance from the player to the mouse in pixels */
     private double getDistanceToMouse(){
         int playerCenterX = GameMap.player[0].getPixelX() + (Grid.BLOCK_SIZE * Player.PLAYER_WIDTH) / 2;
         int playerCenterY = GameMap.player[0].getPixelY() + (Grid.BLOCK_SIZE * Player.PLAYER_HEIGHT) / 2;
@@ -112,6 +117,10 @@ public class Projectile {
         return distance;
     }
 
+    /**
+     * gets the coordinates of the block that the mouse is hovering over. Returns as a vector which has its x and y coordinates as the block's grid coordinates
+     * @return
+     */
     private Vector getSelectedBlockCoordinates(){
         int mouseX = GameMap.getMouseX();
         int mouseY = GameMap.getMouseY();
@@ -120,6 +129,7 @@ public class Projectile {
         return new Vector(blockX, blockY);
     }
 
+    /** damages the selected block by mining_damage amount */
     private void damageBlock(Vector block){
         
         int blockX = block.getX();

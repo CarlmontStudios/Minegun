@@ -114,6 +114,7 @@ public class Player {
         hitbox.setPixelY((int) pixelY);
         velocityY += G;
 
+        //these are checks that make sure the player won't phase through solid blocks when they are jumping/falling
         if (isHittingRoof()) {
             velocityY = 0;
             hitbox.setY((int) Math.ceil(pixelY / 40.0)); //for preventing collision
@@ -163,6 +164,11 @@ public class Player {
         return (int) Math.floor(pixelY / Grid.BLOCK_SIZE);
     }
 
+
+    /**
+     * checks if the player is currently standing on a solid block (i.e. not falling)
+     * @return
+     */
     public boolean isGrounded(){
         //in pixel units
         int bottomY = (int) (pixelY + PLAYER_HEIGHT * Grid.BLOCK_SIZE); 
@@ -175,6 +181,10 @@ public class Player {
         return false;
     }
 
+    /**
+     * checks if the player is currently hitting a solid block from below (i.e. hitting a roof)
+     * @return
+     */
     public boolean isHittingRoof(){
         
         for (int x = pixelX; x < pixelX + PLAYER_WIDTH * Grid.BLOCK_SIZE; x++) {
