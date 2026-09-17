@@ -12,6 +12,7 @@ public class Screen {
     JFrame frame;
     JButton button;
     public static final GameMap map[] = new GameMap[1]; //cool hack to allow map to be treated as static without making it static
+    public static final Inventory inv[] = new Inventory[1];
     private GameMap gameMap;
     public Player player;
     Grid grid;
@@ -73,6 +74,9 @@ public class Screen {
                 gameMap.setVisible(true);
                 frame.remove(button);
 
+                Inventory inventory = new Inventory();
+                Screen.inv[0] = inventory;
+
                 Controls.initializeControls(frame, gameMap);
                 player = new Player();
                 Hotbar hotbar = new Hotbar();
@@ -82,8 +86,10 @@ public class Screen {
 
                 
                 gamePanel.add(hotbar, JLayeredPane.PALETTE_LAYER);
+                InventoryButton inventoryButton = new InventoryButton();
+                gamePanel.add(inventoryButton, JLayeredPane.PALETTE_LAYER);
                 hotbar.setBounds(hotbarX, hotbarY, Hotbar.HOTBAR_WIDTH, Hotbar.HOTBAR_HEIGHT);
-                //frame.getContentPane().setComponentZOrder(hotbar, 0);
+                inventoryButton.setBounds(hotbarX-100, hotbarY, Hotbar.HOTBAR_WIDTH/Hotbar.HOTBAR_SIZE, Hotbar.HOTBAR_HEIGHT);
                 hotbar.setVisible(true);
                 frame.revalidate();
                 frame.repaint();
