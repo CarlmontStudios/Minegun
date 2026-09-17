@@ -32,7 +32,7 @@ public class Worm {
         setupWorm();
     }
 
-
+    /** initializes the worm's body on the field */
     public void setupWorm(){
         body = new WormBodyPart[length];
         for (int i = 0; i < length; i++) {
