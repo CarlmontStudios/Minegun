@@ -7,12 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import project.gameobjects.Player;
+import project.gameobjects.Worm;
 
 public class Screen {
     JFrame frame;
     JButton button;
     GameMap map;
     public Player player;
+    public static Worm[] worms;
     Grid grid;
 
     public static final Color DIRT_COLOR_0 = new Color(40, 20, 0);
@@ -67,6 +69,12 @@ public class Screen {
 
                 Controls.initializeControls(frame, map);
                 player = new Player();
+
+                // code to test worms
+                worms = new Worm[5];
+                for (int i = 0; i < worms.length; i++) {
+                    worms[i] = new Worm(Worm.Type.L1, 50 * i, 75);
+                }
                 frame.revalidate();
                 frame.repaint();
                 frame.requestFocusInWindow();

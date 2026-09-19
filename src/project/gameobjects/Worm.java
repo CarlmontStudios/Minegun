@@ -11,7 +11,7 @@ public class Worm {
         L3
     }
 
-    private WormBodyPart[] body;
+    public WormBodyPart[] body;
     private int length;
     private Grid.Direction headDirection;
     private Type type;
@@ -35,7 +35,10 @@ public class Worm {
 
 
     public void setupWorm(){
+        System.out.println("entering setupWorm()");
+        length = 20;
         body = new WormBodyPart[length];
+        
         for (int i = 0; i < length; i++) {
             Direction direction;
             
@@ -74,7 +77,10 @@ public class Worm {
                     testX = partX;
                     testY = partY;
                 }
+
+                
                 while (!Grid.wormCanSpawn(testX, testY)) {
+                    System.out.println("stuck in while(!Grid.wormCanSpawn(...");
                     direction = retrieveDirectionForBodyPart(i); // Get a new direction if the space is occupied
                     // Update testX and testY based on the new direction
                     switch (direction) {

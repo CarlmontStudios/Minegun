@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import project.gameobjects.Player;
+import project.gameobjects.WormBodyPart;
 
 
 public class GameMap extends JPanel {
@@ -46,6 +47,15 @@ public class GameMap extends JPanel {
                 } else if (Grid.grid[i][j] == 0){
                     g2d.setColor(Color.BLACK);
                 }
+                
+                //for (int k = 0; i < Grid.MAP_WIDTH; k++) {
+                //    for (int l = 0; l < Grid.MAP_HEIGHT; l++) {
+
+                //    }
+                //}
+                if (Grid.worm_grid[i][j] == 1) {
+                    g2d.setColor(Color.BLUE);
+                }
 
                 g2d.fillRect(x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE);
                 g2d.setColor(Color.BLACK);
@@ -59,5 +69,20 @@ public class GameMap extends JPanel {
         g2d.setColor(Player.PLAYER_COLOR);
         g2d.fillRect((int) Player.getPixelX(), (int) Player.getPixelY(),
                      Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);
+
+        // displaying the worm: we can't use the grid because then it would move in large steps,
+        // and it could only be displyaed exactly on a certain grid position.
+        for (int i = 0; i < Screen.worms.length; i++) {
+            WormBodyPart[] bodyParts2 = Screen.worms[i].body;
+            System.out.println("The length is:" + bodyParts2.length);
+            for (int j = 0; j < bodyParts2.length; j++) {
+                System.out.println(i + " " + j);
+                if (j == 20) System.out.println("before exception");
+                g2d.fillRect(bodyParts2[j].getX() - Grid.BLOCK_SIZE / 2, 
+                    bodyParts2[j].getY() - Grid.BLOCK_SIZE / 2, 
+                    Grid.BLOCK_SIZE / 2, Grid.BLOCK_SIZE / 2);
+                if (j == 20) System.out.println("after exception");
+            }
+        }
     }
 }
