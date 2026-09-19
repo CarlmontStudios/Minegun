@@ -19,6 +19,8 @@ public class Sprite {
     public static final String CRACKED_1 = "src/images/cracked_1.png";
     public static final String PICKAXE_HOVER = "src/images/pickaxe_hover.png";
     public static final String IRON_BLOCK = "src/images/Iron_Block.png";
+    public static final String INVENTORY_BUTTON = "src/images/Inventory_Button.png";
+    public static final String HIGHLIGHTED_INVENTORY_BUTTON = "src/images/Highlighted_Inventory_Button.jpg";
 
     /**
      * creates a new sprite with grid square units
@@ -91,8 +93,9 @@ public class Sprite {
     public String getImagePath() {
         return imagePath;
     }
-    public void setImagePath(String imagePath) {
+    public void setImagePath(String imagePath) throws IOException {
         this.imagePath = imagePath;
+        image = ImageIO.read(new File(imagePath));
     }
     public int getX() {
         return x;

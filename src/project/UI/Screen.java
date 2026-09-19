@@ -82,15 +82,14 @@ public class Screen {
                 player = new Player();
                 Hotbar hotbar = new Hotbar();
                 Hotbar.selectedSlot = 0; // Initialize selected slot to 0
-                int hotbarX = (VIEWPORT_WIDTH - Hotbar.HOTBAR_WIDTH) / 2;
-                int hotbarY = VIEWPORT_HEIGHT - Hotbar.HOTBAR_HEIGHT - 50;
+                
 
                 
                 gamePanel.add(hotbar, JLayeredPane.PALETTE_LAYER);
                 InventoryButton inventoryButton = new InventoryButton();
                 gamePanel.add(inventoryButton, JLayeredPane.PALETTE_LAYER);
-                hotbar.setBounds(hotbarX, hotbarY, Hotbar.HOTBAR_WIDTH, Hotbar.HOTBAR_HEIGHT);
-                inventoryButton.setBounds(hotbarX-100, hotbarY, Hotbar.HOTBAR_WIDTH/Hotbar.HOTBAR_SIZE, Hotbar.HOTBAR_HEIGHT);
+                hotbar.setBounds(Hotbar.HOTBAR_X, Hotbar.HOTBAR_Y, Hotbar.HOTBAR_WIDTH, Hotbar.HOTBAR_HEIGHT);
+                inventoryButton.setBounds(InventoryButton.INVENTORY_BUTTON_X, InventoryButton.INVENTORY_BUTTON_Y, InventoryButton.INVENTORY_BUTTON_WIDTH, InventoryButton.INVENTORY_BUTTON_HEIGHT);
                 hotbar.setVisible(true);
                 frame.revalidate();
                 frame.repaint();

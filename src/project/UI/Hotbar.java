@@ -14,6 +14,8 @@ public class Hotbar extends JPanel {
     public static final int HOTBAR_SQUARE_LENGTH = 80; // Length of each slot in the hotbar
     public static final int HOTBAR_HEIGHT = HOTBAR_SQUARE_LENGTH; // Height of the hotbar
     public static final int HOTBAR_WIDTH = HOTBAR_SQUARE_LENGTH * HOTBAR_SIZE; // Width of the hotbar
+    public static final int HOTBAR_X = (Screen.VIEWPORT_WIDTH - Hotbar.HOTBAR_WIDTH) / 2;
+    public static final int HOTBAR_Y = Screen.VIEWPORT_HEIGHT - Hotbar.HOTBAR_HEIGHT - 50;
 
     public static int selectedSlot = 0; // Index of the currently selected slot (0 to HOTBAR_SIZE - 1)
     private Item[] items;
