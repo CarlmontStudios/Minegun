@@ -60,7 +60,7 @@ public class Projectile {
                         collidedBlocks.addAll(Hitbox.getCollidedBlocks(hitbox));
                         //System.out.println("collided blocks: " + collidedBlocks);
                         if (collidedBlocks.contains(targetedBlock)) {
-                            System.out.println("mining projectile hit targeted block at: " + targetedBlock.getX() + ", " + targetedBlock.getY());
+                            //System.out.println("mining projectile hit targeted block at: " + targetedBlock.getX() + ", " + targetedBlock.getY());
                             //Vector collidedBlock = Hitbox.getCollidedBlock(hitbox);
                             damageBlock(targetedBlock);
                         }

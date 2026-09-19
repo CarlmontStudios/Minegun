@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -27,12 +28,18 @@ public class GameMap extends JPanel {
     Sprite mouseHoverSprite;
     String hoverSpritePath;
 
+    public static BufferedImage Iron_Block_Image; 
 
     
 
 
     public GameMap() {
         setBackground(Color.BLACK);
+        try {
+            Iron_Block_Image = ImageIO.read(new File(Sprite.IRON_BLOCK));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         MouseMotionAdapter mouseTracker = new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -105,7 +112,7 @@ public class GameMap extends JPanel {
                 //draw block sprites---------------------------------------------
                 if (Grid.block_max_health_grid[i][j] == 15 && Grid.grid[i][j] == 1) { // Check if the block is an iron block
                     try {
-                        g2d.drawImage(ImageIO.read(new File(Sprite.IRON_BLOCK)), x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, null);
+                        g2d.drawImage(Iron_Block_Image, x, y, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, null);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -137,6 +144,12 @@ public class GameMap extends JPanel {
             mouseHoverSprite = null; // Clear the mouse hover sprite when not in the first slot
         }
         try {
+            if (hoverSpritePath != null) {
+                mouseHoverSprite = new Sprite(hoverSpritePath, GameMap.getMouseX() - 10, GameMap.getMouseY() - 10, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, true);
+                g2d.drawImage(mouseHoverSprite.getImage(), mouseHoverSprite.getPixelX(), mouseHoverSprite.getPixelY(), mouseHoverSprite.getPixelWidth(), mouseHoverSprite.getPixelHeight(), null);
+            } else {
+                mouseHoverSprite = null; // Clear the mouse hover sprite when not in the first slot
+            }
             mouseHoverSprite = new Sprite(hoverSpritePath, GameMap.getMouseX() - 10, GameMap.getMouseY() - 10, Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, true);
             g2d.drawImage(mouseHoverSprite.getImage(), mouseHoverSprite.getPixelX(), mouseHoverSprite.getPixelY(), mouseHoverSprite.getPixelWidth(), mouseHoverSprite.getPixelHeight(), null);
             //g2d.drawImage(mouseHoverSprite.getImage(), GameMap.getMouseX(), GameMap.getMouseY(), Grid.BLOCK_SIZE, Grid.BLOCK_SIZE, null);
