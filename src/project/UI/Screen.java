@@ -1,5 +1,7 @@
 package project.UI;
 
+import java.util.ArrayList;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,6 +19,7 @@ public class Screen {
     private GameMap gameMap;
     public Player player;
     public static Worm[] worms;
+    public static ArrayList<Sprite> wormSprites = new ArrayList<>();
     Grid grid;
     JLayeredPane gamePanel;
 
@@ -99,6 +102,8 @@ public class Screen {
                 //for (int i = 0; i < worms.length; i++) {
                 //    worms[i] = new Worm(Worm.Type.L1, 50 * i, 75);
                 //}
+                worms = new Worm[1];
+                worms[0] = new Worm(Worm.Type.L1, 48, 985);
                 frame.revalidate();
                 frame.repaint();
                 frame.requestFocusInWindow();

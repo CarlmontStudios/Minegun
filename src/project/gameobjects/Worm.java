@@ -1,5 +1,6 @@
 package project.gameobjects;
 
+import javax.swing.Timer;
 import project.UI.Grid;
 import project.UI.Grid.Direction;
 public class Worm {
@@ -17,20 +18,76 @@ public class Worm {
     private Type type;
     private int x; //represents x and y coordinates of the head of the worm
     private int y;
-    private int step;
+    private int step = 5; //probably GRID.BLOCK_SIZE % step must == 0.
 
     //coordinates of the worm in pixels, used for movement
     private int pixelCoordsX; 
     private int pixelCoordsY;
 
-    public Worm(Type type) {
+    public Worm(Type type, int x, int y) {
         this.type = type;
-        // this.x = x;
-        // this.y = y;
+        this.x = x;
+        this.y = y;
         this.pixelCoordsX = x * Grid.BLOCK_SIZE;
         this.pixelCoordsY = y * Grid.BLOCK_SIZE;
         headDirection = Grid.getRandomDirection();
         setupWorm();
+
+        Timer wormTimer = new Timer(16, e -> {
+            int blocksPerTurn = 5;
+            boolean changingDirection = Math.random() < (1.0 / (8 * blocksPerTurn));
+
+            if (changingDirection) {
+                System.out.println("changing direction of worm");
+                double choice = (int) (Math.random() * 2);
+                // 0 is turn left, 1 is turn right
+                // enums are lowk annoying for direction, using a vector would be better
+                if (choice == 0) {
+                    switch (body[0].getDirection()) {
+                        case UP:
+                            body[0].setPendingDirection(Direction.LEFT);
+                            break;
+                        case LEFT:
+                            body[0].setPendingDirection(Direction.DOWN);
+                            break;
+                        case DOWN:
+                            body[0].setPendingDirection(Direction.RIGHT);
+                            break;
+                        case RIGHT:
+                            body[0].setPendingDirection(Direction.UP);
+                            break;
+                    }
+                }
+                if (choice == 1) {
+                    switch (body[0].getDirection()) {
+                        case UP:
+                            body[0].setPendingDirection(Direction.RIGHT);
+                            break;
+                        case LEFT:
+                            body[0].setPendingDirection(Direction.UP);
+                            break;
+                        case DOWN:
+                            body[0].setPendingDirection(Direction.LEFT);
+                            break;
+                        case RIGHT:
+                            body[0].setPendingDirection(Direction.DOWN);
+                            break;
+                        //default:
+                        //    throw new IllegalArgumentException("Unknown direction: " + body[0].getDirection());
+                    }    
+                }
+            }
+            for (int i = body.length - 1; i >=0; i--) {
+                //System.out.println("just entered worm body part for loop");
+                if (i != 0) {
+                    body[i].moveForward(i, body[i-1].getDirection(), body[i-1].getPendingDirection());
+                } else {
+                    body[i].moveForward(i, null, null);
+                }
+            }
+
+        });
+        wormTimer.start();
     }
 
     /** initializes the worm's body on the field */

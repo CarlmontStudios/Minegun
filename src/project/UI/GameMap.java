@@ -156,9 +156,17 @@ public class GameMap extends JPanel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+        double rand = Math.random();
+        if (rand < 0.01) {
+            System.out.println("drawing worm set");
+        }
         for (Sprite sprite : Grid.sprites) {
             if (sprite != null) {
                 try {
+                    if (rand < 0.01) {
+                        System.out.println("Drawing" + sprite.getImagePath() + " at x: " + sprite.getPixelX() + " and y : " + sprite.getPixelY());
+                    }
                     g2d.drawImage(sprite.getImage(), sprite.getPixelX(), sprite.getPixelY(), sprite.getPixelWidth(), sprite.getPixelHeight(), null);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -182,6 +190,13 @@ public class GameMap extends JPanel {
     public static int getMouseY() {
         return mouseScreenY - deltaY; // subtract deltaY to get the mouse position in world coordinates
     }
-    
+
+    public static int getDeltaX() {
+        return deltaX;
+    }
+
+    public static int getDeltaY() {
+        return deltaY;
+    }
 
 }
