@@ -21,6 +21,7 @@ public class Sprite {
     public static final String IRON_BLOCK = "src/images/Iron_Block.png";
     public static final String INVENTORY_BUTTON = "src/images/Inventory_Button.png";
     public static final String HIGHLIGHTED_INVENTORY_BUTTON = "src/images/Highlighted_Inventory_Button.jpg";
+    public static final String WORM_TEST = "src/images/Worm_Test.png";
 
     /**
      * creates a new sprite with grid square units

@@ -8,7 +8,7 @@ import project.gameobjects.Projectile;
 public class Main {
     public static void main (String[] args) {
         Screen screen = new Screen();
-
+        
         Timer timer = new Timer(16, e -> {
             if (Screen.map[0] != null){
 

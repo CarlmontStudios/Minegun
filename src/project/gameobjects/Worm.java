@@ -22,10 +22,10 @@ public class Worm {
     private int pixelCoordsX; 
     private int pixelCoordsY;
 
-    public Worm(Type type, int x, int y) {
+    public Worm(Type type) {
         this.type = type;
-        this.x = x;
-        this.y = y;
+        // this.x = x;
+        // this.y = y;
         this.pixelCoordsX = x * Grid.BLOCK_SIZE;
         this.pixelCoordsY = y * Grid.BLOCK_SIZE;
         headDirection = Grid.getRandomDirection();
@@ -130,6 +130,11 @@ public class Worm {
 
         return d;
     }
+
+    //#region GENERATION
+
+
+    
 
     //#region MOVEMENT
     
