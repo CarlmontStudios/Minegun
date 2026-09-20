@@ -12,10 +12,13 @@ import project.gameobjects.Worm;
 public class Screen {
     JFrame frame;
     JButton button;
-    GameMap map;
+    public static final GameMap map[] = new GameMap[1]; //cool hack to allow map to be treated as static without making it static
+    public static final Inventory inv[] = new Inventory[1];
+    private GameMap gameMap;
     public Player player;
     public static Worm[] worms;
     Grid grid;
+    JLayeredPane gamePanel;
 
     public static final Color DIRT_COLOR_0 = new Color(40, 20, 0);
     public static final Color DIRT_COLOR_1 = new Color(61, 30, 0);
@@ -26,6 +29,7 @@ public class Screen {
 
     public Screen() {
         grid = new Grid();
+        gamePanel = new JLayeredPane();
         initializeFrame();
     }
 
@@ -56,25 +60,45 @@ public class Screen {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //all the code that runs once you press the start button(like initializing the game map and stuff)
                 System.out.println("Button was clicked");
                 button.setVisible(false);
+                
+                frame.add(gamePanel);
+                gamePanel.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
                 // panel is now fixed at the viewport size -- the grid scrolls
                 // underneath it via translate, not by moving the panel itself
-                map = new GameMap();
-                map.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                frame.add(map);
-                map.setVisible(true);
+                Screen.map[0] = new GameMap();
+                gameMap = Screen.map[0];
+                gameMap.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+                gamePanel.add(gameMap, JLayeredPane.DEFAULT_LAYER);
+                //frame.getContentPane().setComponentZOrder(map, 1);
+                gameMap.setVisible(true);
                 frame.remove(button);
 
-                Controls.initializeControls(frame, map);
+                Inventory inventory = new Inventory();
+                Screen.inv[0] = inventory;
+
+                Controls.initializeControls(frame, gameMap);
                 player = new Player();
+                Hotbar hotbar = new Hotbar();
+                Hotbar.selectedSlot = 0; // Initialize selected slot to 0
+                
+
+                
+                gamePanel.add(hotbar, JLayeredPane.PALETTE_LAYER);
+                InventoryButton inventoryButton = new InventoryButton();
+                gamePanel.add(inventoryButton, JLayeredPane.PALETTE_LAYER);
+                hotbar.setBounds(Hotbar.HOTBAR_X, Hotbar.HOTBAR_Y, Hotbar.HOTBAR_WIDTH, Hotbar.HOTBAR_HEIGHT);
+                inventoryButton.setBounds(InventoryButton.INVENTORY_BUTTON_X, InventoryButton.INVENTORY_BUTTON_Y, InventoryButton.INVENTORY_BUTTON_WIDTH, InventoryButton.INVENTORY_BUTTON_HEIGHT);
+                hotbar.setVisible(true);
 
                 // code to test worms
-                worms = new Worm[5];
-                for (int i = 0; i < worms.length; i++) {
-                    worms[i] = new Worm(Worm.Type.L1, 50 * i, 75);
-                }
+                //worms = new Worm[5];
+                //for (int i = 0; i < worms.length; i++) {
+                //    worms[i] = new Worm(Worm.Type.L1, 50 * i, 75);
+                //}
                 frame.revalidate();
                 frame.repaint();
                 frame.requestFocusInWindow();

@@ -2,16 +2,20 @@ package project.UI;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-import javax.swing.Timer;
-import project.gameobjects.Player;
 
 public class Controls {
 
-    private static boolean leftPressed = false;
-    private static boolean rightPressed = false;
+    public static boolean leftPressed = false;
+    public static boolean rightPressed = false;
+    public static boolean leftClickPressed = false;
 
-    private static final int MOVE_SPEED = 4; // pixels per tick for A/D
+    public static final double MINING_COOLDOWN = 0.5; // seconds
+    public static double miningCooldownTimer = 0; // seconds
+
+    public static final int MOVE_SPEED = 4; // pixels per tick for A/D
 
     public static void initializeControls(JFrame frame, GameMap map) {
 
@@ -25,7 +29,38 @@ public class Controls {
                     rightPressed = true;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    Player.startJump();
+                    //System.out.println(GameMap.player[0].isGrounded());
+                    if (GameMap.player[0] != null && GameMap.player[0].isGrounded()) {
+                        GameMap.player[0].startJump();
+                    }
+                
+                }
+                if (e.getKeyCode() == KeyEvent.VK_1) {
+                    Hotbar.selectedSlot = 0;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_2) {
+                    Hotbar.selectedSlot = 1;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_3) {
+                    Hotbar.selectedSlot = 2;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_4) {
+                    Hotbar.selectedSlot = 3;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_5) {
+                    Hotbar.selectedSlot = 4;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_6) {
+                    Hotbar.selectedSlot = 5;
+                }
+
+                // TESTING
+                if (e.getKeyCode() == KeyEvent.VK_C) {
+                    GameMap.player[0].setPixelY(GameMap.player[0].getPixelY()+250);
+                    System.out.println(GameMap.player[0].getPixelY());
+                }
+                if (e.getKeyCode() == KeyEvent.VK_V) {
+                    GameMap.player[0].setPixelY(GameMap.player[0].getPixelY()-250);
                 }
             }
 
@@ -38,26 +73,31 @@ public class Controls {
                     rightPressed = false;
                 }
             }
-
+ 
             @Override
             public void keyTyped(KeyEvent e) {
                 // required by interface, unused
             }
         });
-        //TODO: We might want to change this to deal with falling (right now you can jump up and down but can't fall)
-        // drives both horizontal movement and the jump arc
-        Timer physicsTimer = new Timer(16, e -> {
-            if (leftPressed) {
-                Player.moveLeft(MOVE_SPEED);
-            }
-            if (rightPressed) {
-                Player.moveRight(MOVE_SPEED);
-            }
 
-            Player.updateJump();
-
-            map.repaint();
+        map.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftClickPressed = true;
+                    
+                }
+            }
+ 
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftClickPressed = false;
+                }
+            }
         });
-        physicsTimer.start();
+
+       
     }
+
 }

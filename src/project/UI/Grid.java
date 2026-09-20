@@ -1,16 +1,25 @@
 package project.UI;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class Grid {
 
     //in grid blocks not pixels
     public static final int MAP_WIDTH = 100;
     public static final int MAP_HEIGHT = 1000;
+
+    //1 represents a solid block, 0 represents empty space
     public static final int[][] grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
-    public static final int[][] hitbox_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for hitboxes
+
+    //public static final Hitbox[][] hitbox_grid = new Hitbox[MAP_WIDTH][MAP_HEIGHT]; //grid for hitboxes
     public static final int[][] worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
+    public static final int[][] block_health_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for block health
+    public static final int[][] block_max_health_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for block max health
     public static final Color[][] color_grid = new Color[MAP_WIDTH][MAP_HEIGHT]; //grid for block colors
+
+    public static final Sprite[][] block_sprite_grid = new Sprite[MAP_WIDTH][MAP_HEIGHT]; //grid for block sprites
+    public static final ArrayList<Sprite> sprites = new ArrayList<>(); //list of sprites in the game (thinking of using this for sprites that have animations)
     public static final int BLOCK_SIZE = 40; //in pixels
 
 
@@ -34,12 +43,14 @@ public class Grid {
             for(int j = 0; j < MAP_HEIGHT; j++){
                 grid[i][j] = 1;
                 worm_grid[i][j] = 0;
+                block_health_grid[i][j] = 5;
+                block_max_health_grid[i][j] = 5;
                 Color baseColor = Screen.DIRT_COLOR_0; //TODO: make variation depending on y level
                 int variation_r = (int)(Math.random() * 4) - 2; // Random variation between -4 and +4
                 int variation_g = (int)(Math.random() * 4) - 2; // Random variation between -4 and +4
                 color_grid[i][j] = new Color(
-                    Math.max(0, Math.min(255, baseColor.getRed() + variation_r)),
-                    Math.max(0, Math.min(255, baseColor.getGreen() + variation_g)),
+                    Math.max(0, Math.min(255, baseColor.getRed() + variation_r+70-(j/25))),
+                    Math.max(0, Math.min(255, baseColor.getGreen() + variation_g+20-(j/45))),
                     0);
             }
         }
@@ -48,9 +59,33 @@ public class Grid {
         for(int i = MAP_WIDTH/2 - 2; i < MAP_WIDTH/2 + 2; i++){ // width gets 48, 49, 50, 51
             for(int j = MAP_HEIGHT - 13; j < MAP_HEIGHT - 10 ; j++){ // height gets 987-990, 
                 grid[i][j] = 0;
+                // grid[i-4][j] = 0;
+                // grid[i-3][j+1] = 0;
+                // grid[i-4][j+2] = 0;
+                // grid[i-4][j+3] = 0;
             }
         }
+
+        generateSpecialBlocks();
+
         
+    }
+
+    private void generateSpecialBlocks(){
+        for (int i = 0; i < MAP_WIDTH; i++) {
+            for (int j = 0; j < MAP_HEIGHT; j++) {
+                if (grid[i][j] == 1) { // Only consider solid blocks
+
+                    double ironChance = Math.random();
+                    double ironChanceMultiplier = (double) j / MAP_HEIGHT;
+                    if (ironChance  < 0.01 * ironChanceMultiplier) { // 1% chance for iron block but decreases as you go up
+                        
+                        block_health_grid[i][j] = 15; //maxHealth of 15 indicates iron block (this will be used for rendering)
+                        block_max_health_grid[i][j] = 15;
+                    }
+                }
+            }
+        }
     }
 
     public static Direction getRandomDirection(){

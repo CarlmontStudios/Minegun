@@ -23,17 +23,17 @@ public class Worm {
     private int pixelCoordsX; 
     private int pixelCoordsY;
 
-    public Worm(Type type, int x, int y) {
+    public Worm(Type type) {
         this.type = type;
-        this.x = x;
-        this.y = y;
+        // this.x = x;
+        // this.y = y;
         this.pixelCoordsX = x * Grid.BLOCK_SIZE;
         this.pixelCoordsY = y * Grid.BLOCK_SIZE;
         headDirection = Grid.getRandomDirection();
         setupWorm();
     }
 
-
+    /** initializes the worm's body on the field */
     public void setupWorm(){
         System.out.println("entering setupWorm()");
         length = 20;
@@ -142,6 +142,11 @@ public class Worm {
 
         return d;
     }
+
+    //#region GENERATION
+
+
+    
 
     //#region MOVEMENT
     public void moveForward() {
