@@ -104,6 +104,80 @@ public class Grid {
         }
     }
 
+    /**
+     * gets direction by taking an input that uses the standard coordinate system (going counterclockwise)
+     * @param degrees
+     * @return
+     */
+    public static Direction degreesToDirection(double degrees) {
+        // Normalize degrees to be within [0, 360)
+        degrees = degrees % 360;
+        if (degrees < 0) {
+            degrees += 360;
+        }
+
+        if (degrees >= 45 && degrees < 135) {
+            return Direction.UP;
+        } else if (degrees >= 135 && degrees < 225) {
+            return Direction.LEFT;
+        } else if (degrees >= 225 && degrees < 315) {
+            return Direction.DOWN;
+        } else {
+            return Direction.RIGHT;
+        }
+    }
+    /**
+     * gets direction by taking an input that uses swing's coordinate system (going clockwise)
+     * @param degrees
+     * @return
+     */
+    public static Direction degreesToDirection_swing_coords(double degrees) {
+        // Normalize degrees to be within [0, 360)
+        degrees = degrees % 360;
+        if (degrees < 0) {
+            degrees += 360;
+        }
+
+        if (degrees >= 45 && degrees < 135) {
+            return Direction.DOWN;
+        } else if (degrees >= 135 && degrees < 225) {
+            return Direction.LEFT;
+        } else if (degrees >= 225 && degrees < 315) {
+            return Direction.UP;
+        } else {
+            return Direction.RIGHT;
+        }
+    }
+
+    public static int directionToDegrees(Direction direction) {
+        switch (direction) {
+            case UP:
+                return 90;
+            case DOWN:
+                return 270;
+            case LEFT:
+                return 180;
+            case RIGHT:
+                return 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static boolean isEdgeBlock(int x, int y) {
+        if (x < 0 || x >= MAP_WIDTH - 1 || y < 0 || y >= MAP_HEIGHT - 1) {
+            return false; // block is at the border and counts as edge block
+        }
+        if (grid[x][y] == 1) { // Only consider solid blocks
+            // Check the four adjacent blocks
+            if (grid[x - 1][y] == 0) return true; // Left
+            if (grid[x + 1][y] == 0) return true; // Right
+            if (y > 0 && grid[x][y - 1] == 0) return true; // Up
+            if (y < MAP_HEIGHT - 1 && grid[x][y + 1] == 0) return true; // Down
+        }
+        return false;
+    }
+
     public static boolean wormCanSpawn(int x, int y){
         return worm_grid[x][y] == 0 && grid[x][y] == 1;
     }
