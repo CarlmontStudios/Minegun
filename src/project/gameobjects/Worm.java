@@ -31,6 +31,7 @@ public class Worm {
         this.pixelCoordsX = x * Grid.BLOCK_SIZE;
         this.pixelCoordsY = y * Grid.BLOCK_SIZE;
         headDirection = Grid.getRandomDirection();
+        length = (int) (Math.random() * 3) + 5; // Random length between 5 and 8
         setupWorm();
 
         Timer wormTimer = new Timer(16, e -> {
@@ -93,7 +94,7 @@ public class Worm {
     /** initializes the worm's body on the field */
     public void setupWorm(){
         System.out.println("entering setupWorm()");
-        length = 20;
+        
         body = new WormBodyPart[length];
         
         for (int i = 0; i < length; i++) {
@@ -245,6 +246,13 @@ public class Worm {
                     System.out.println("TODO: Put whatever is supposed to be here.");  
             }
     }
+
+    private Direction getDirectionTowardsTarget(){
+        double angle = Math.atan2(Player.pixelY - body[0].getY(), Player.pixelX - body[0].getX());
+        return Grid.degreesToDirection_swing_coords(Math.toDegrees(angle));
+    }
+
+    
 
     
 }
