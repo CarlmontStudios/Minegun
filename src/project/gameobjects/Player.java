@@ -142,10 +142,10 @@ public class Player {
         return pixelY;
     }
 
-    public int getX() {
+    public static int getX() {
         return pixelX / Grid.BLOCK_SIZE;
     }
-    public int getY() {
+    public static int getY() {
         return pixelY / Grid.BLOCK_SIZE;
     }
 
