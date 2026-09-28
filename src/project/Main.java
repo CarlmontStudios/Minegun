@@ -53,25 +53,25 @@ public class Main {
     }
 
     public static void reportWormSprites() {
-        System.out.println("Printing Report");
+        //System.out.println("Printing Report");
         for (Sprite sp : Grid.sprites){
-            System.out.println("Image Path : " + sp.getImagePath());
-            System.out.println("Pixel Position: " + sp.getPixelX() + ", " + sp.getPixelY());
-            System.out.println("Width / Height: " + sp.getWidth() + " / " + sp.getHeight());
+            //System.out.println("Image Path : " + sp.getImagePath());
+            //System.out.println("Pixel Position: " + sp.getPixelX() + ", " + sp.getPixelY());
+            //System.out.println("Width / Height: " + sp.getWidth() + " / " + sp.getHeight());
         }
     }
 
     public static void reportBlockSprites() {
-        System.out.println("Printing Report");
+        //System.out.println("Printing Report");
         for (Sprite[] sps : Grid.block_sprite_grid){
             for (Sprite sp : sps) {
                 // System.out
                 if (sp != null) {
-                    System.out.println("just entered if (sp != null)");
-                    System.out.println(sp != null);
-                    System.out.println("Image Path : " + sp.getImagePath());
-                    System.out.println("Pixel Position: " + sp.getPixelX() + ", " + sp.getPixelY());
-                    System.out.println("Width / Height: " + sp.getWidth() + " / " + sp.getHeight());
+                    //System.out.println("just entered if (sp != null)");
+                    //System.out.println(sp != null);
+                    //System.out.println("Image Path : " + sp.getImagePath());
+                    //System.out.println("Pixel Position: " + sp.getPixelX() + ", " + sp.getPixelY());
+                    //System.out.println("Width / Height: " + sp.getWidth() + " / " + sp.getHeight());
                 }
             }
         }

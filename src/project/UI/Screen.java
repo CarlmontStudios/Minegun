@@ -64,7 +64,7 @@ public class Screen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //all the code that runs once you press the start button(like initializing the game map and stuff)
-                System.out.println("Button was clicked");
+                //System.out.println("Button was clicked");
                 button.setVisible(false);
                 
                 frame.add(gamePanel);

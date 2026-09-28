@@ -31,6 +31,8 @@ public class Grid {
         RIGHT
     }
 
+    public static Direction[] directions = Direction.values();
+
     public Grid(){
         // grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
         // worm_grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for worm positions
@@ -149,12 +151,37 @@ public class Grid {
         }
     }
 
+    /**
+     * Converts a direction to its corresponding angle in degrees.
+     * @param direction The direction to convert.
+     * @return The angle in degrees.
+     */
     public static int directionToDegrees(Direction direction) {
         switch (direction) {
             case UP:
                 return 90;
             case DOWN:
                 return 270;
+            case LEFT:
+                return 180;
+            case RIGHT:
+                return 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    /**
+     * Converts a direction to its corresponding angle in degrees.
+     * @param direction The direction to convert.
+     * @return The angle in degrees.
+     */
+    public static int directionToDegrees_swing_coords(Direction direction) {
+        switch (direction) {
+            case UP:
+                return 270;
+            case DOWN:
+                return 90;
             case LEFT:
                 return 180;
             case RIGHT:
@@ -172,10 +199,25 @@ public class Grid {
             // Check the four adjacent blocks
             if (grid[x - 1][y] == 0) return true; // Left
             if (grid[x + 1][y] == 0) return true; // Right
-            if (y > 0 && grid[x][y - 1] == 0) return true; // Up
-            if (y < MAP_HEIGHT - 1 && grid[x][y + 1] == 0) return true; // Down
+            if (grid[x][y - 1] == 0) return true; // Up
+            if (grid[x][y + 1] == 0) return true; // Down
         }
         return false;
+    }
+
+    public static boolean isNextBlockSolid(int x, int y, Direction direction) {
+        switch (direction) {
+            case UP:
+                return grid[x][y - 1] == 1;
+            case DOWN:
+                return grid[x][y + 1] == 1;
+            case LEFT:
+                return grid[x - 1][y] == 1;
+            case RIGHT:
+                return grid[x + 1][y] == 1;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
     }
 
     public static boolean wormCanSpawn(int x, int y){
