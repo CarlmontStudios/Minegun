@@ -107,7 +107,7 @@ public class Worm {
             else {
                 partX = body[i-1].getX();
                 partY= body[i-1].getY();
-                direction = retrieveDirectionForBodyPart(i); // Get direction for the current body part
+                direction = retrieveDirectionForBodyPart(i, false); // Get direction for the current body part
                 //make it so that the body part is facing the previous body part
                 switch (direction) {
                     case UP:
@@ -131,11 +131,12 @@ public class Worm {
                     testY = partY;
                 }
 
-                
+                boolean failedGeneration = false;
                 while (!Grid.wormCanSpawn(testX, testY)) {
                     System.out.println("stuck in while(!Grid.wormCanSpawn(...");
-                    direction = retrieveDirectionForBodyPart(i); // Get a new direction if the space is occupied
+                    direction = retrieveDirectionForBodyPart(i, failedGeneration); // Get a new direction if the space is occupied
                     // Update testX and testY based on the new direction
+                    System.out.println("Direction being tried: " + direction);
                     switch (direction) {
                         case UP:
                             testY = partY + 1;
@@ -154,6 +155,7 @@ public class Worm {
                             testY = partY;
                             break;
                     }
+                    failedGeneration = true;
                 }
                 
             }
@@ -168,7 +170,7 @@ public class Worm {
      * @param index The index of the body part for which to retrieve a direction.
      * @return
      */
-    private Direction retrieveDirectionForBodyPart(int index){
+    private Direction retrieveDirectionForBodyPart(int index, boolean failing){
         WormBodyPart frontPart = body[index-1];
         Direction frontDirection = frontPart.getDirection();
         Direction impossibleDirection = getImpossibleDirection(frontDirection);
@@ -203,7 +205,16 @@ public class Worm {
             default:
                 throw new IllegalArgumentException("Invalid direction: " + frontDirection);
         }
-        return impossibleDirection;
+        Direction d = frontDirection; // Initialize d to frontDirection to enter the loop
+
+        Direction impossibleDirectionTwo = d;
+
+        while(d == impossibleDirection || (d == impossibleDirectionTwo && failing)){
+            d = Grid.getRandomDirection();
+            System.out.println("supposedly random direction:" + d);
+        }
+
+        return d;
     }
 
     //#region GENERATION

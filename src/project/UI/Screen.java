@@ -1,12 +1,11 @@
 package project.UI;
 
-import java.util.ArrayList;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 import project.gameobjects.Player;
 import project.gameobjects.Worm;
@@ -18,7 +17,7 @@ public class Screen {
     public static final Inventory inv[] = new Inventory[1];
     private GameMap gameMap;
     public Player player;
-    public static Worm[] worms;
+    public static ArrayList<Worm> worms = new ArrayList<>();
     public static ArrayList<Sprite> wormSprites = new ArrayList<>();
     Grid grid;
     JLayeredPane gamePanel;
@@ -97,13 +96,13 @@ public class Screen {
                 inventoryButton.setBounds(InventoryButton.INVENTORY_BUTTON_X, InventoryButton.INVENTORY_BUTTON_Y, InventoryButton.INVENTORY_BUTTON_WIDTH, InventoryButton.INVENTORY_BUTTON_HEIGHT);
                 hotbar.setVisible(true);
 
-                // code to test worms
+                // code to test worms -- leaving this here for now to be able to see at least one of the worms.
                 //worms = new Worm[5];
                 //for (int i = 0; i < worms.length; i++) {
                 //    worms[i] = new Worm(Worm.Type.L1, 50 * i, 75);
                 //}
-                worms = new Worm[1];
-                worms[0] = new Worm(Worm.Type.L1, 48, 985);
+                //worms = new Worm[1];
+                worms.add(new Worm(Worm.Type.L1, 48, 985));
                 frame.revalidate();
                 frame.repaint();
                 frame.requestFocusInWindow();
