@@ -1,11 +1,11 @@
-package project.gameobjects;
+package gameobjects;
 
 import java.awt.Color;
 import javax.swing.Timer;
-import project.UI.Controls;
-import project.UI.GameMap;
-import project.UI.Grid;
-import project.UI.Hitbox;
+import UI.Controls;
+import UI.GameMap;
+import UI.Grid;
+import UI.Hitbox;
 
 public class Player {
 

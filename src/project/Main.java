@@ -1,10 +1,10 @@
-package project;
+//package project;
 
 import javax.swing.Timer;
-import project.UI.*;
-import project.gameobjects.Player;
-import project.gameobjects.Projectile;
-import project.gameobjects.Worm;
+import UI.*;
+import gameobjects.Player;
+import gameobjects.Projectile;
+import gameobjects.Worm;
 
 
 public class Main {

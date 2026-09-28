@@ -1,4 +1,4 @@
-package project.UI;
+package UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
-import project.gameobjects.Player;
-import project.gameobjects.Worm;
+import gameobjects.Player;
+import gameobjects.Worm;
 
 public class Screen {
     JFrame frame;

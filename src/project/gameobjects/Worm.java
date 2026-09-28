@@ -1,8 +1,8 @@
-package project.gameobjects;
+package gameobjects;
 
 import javax.swing.Timer;
-import project.UI.Grid;
-import project.UI.Grid.Direction;
+import UI.Grid;
+import UI.Grid.Direction;
 public class Worm {
     
     public static enum Type {

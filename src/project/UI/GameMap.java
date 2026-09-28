@@ -1,4 +1,4 @@
-package project.UI;
+package UI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import project.gameobjects.Player;
+import gameobjects.Player;
 
 
 

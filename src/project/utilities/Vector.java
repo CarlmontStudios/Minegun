@@ -1,4 +1,4 @@
-package project.utilities;
+package utilities;
 
 import java.util.Objects;
 

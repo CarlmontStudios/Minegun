@@ -1,4 +1,4 @@
-package project.UI;
+package UI;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,8 +15,8 @@ public class Sprite {
     int width;
     int height;
 
-    public static final String CRACKED_0 = "src/images/cracked_0.png";
-    public static final String CRACKED_1 = "src/images/cracked_1.png";
+    public static final String CRACKED_0 = "src/images/Cracked_0.png";
+    public static final String CRACKED_1 = "src/images/Cracked_1.png";
     public static final String PICKAXE_HOVER = "src/images/pickaxe_hover.png";
     public static final String IRON_BLOCK = "src/images/Iron_Block.png";
     public static final String INVENTORY_BUTTON = "src/images/Inventory_Button.png";

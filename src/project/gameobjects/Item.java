@@ -1,4 +1,4 @@
-package project.gameobjects;
+package gameobjects;
 
 public class Item {
 

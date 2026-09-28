@@ -1,8 +1,8 @@
-package project.gameobjects;
-import project.UI.Grid;
-import project.UI.Grid.Direction;
-import project.UI.Sprite;
-import project.utilities.Vector;
+package gameobjects;
+import UI.Grid;
+import UI.Grid.Direction;
+import UI.Sprite;
+import utilities.Vector;
 
 public class WormBodyPart {
 

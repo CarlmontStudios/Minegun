@@ -1,11 +1,11 @@
-package project.UI;
+package UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
-import project.gameobjects.Item;
+import gameobjects.Item;
 
 public class Hotbar extends JPanel {
 

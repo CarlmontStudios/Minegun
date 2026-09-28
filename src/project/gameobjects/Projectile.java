@@ -1,13 +1,13 @@
-package project.gameobjects;
+package gameobjects;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.Timer;
-import project.UI.GameMap;
-import project.UI.Grid;
-import project.UI.Hitbox;
-import project.UI.Sprite;
-import project.utilities.Vector;
+import UI.GameMap;
+import UI.Grid;
+import UI.Hitbox;
+import UI.Sprite;
+import utilities.Vector;
 
 public class Projectile {
 

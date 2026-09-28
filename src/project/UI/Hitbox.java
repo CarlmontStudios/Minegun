@@ -1,7 +1,7 @@
-package project.UI;
+package UI;
 
 import java.util.ArrayList;
-import project.utilities.Vector;
+import utilities.Vector;
 
 public class Hitbox {
     int x;
