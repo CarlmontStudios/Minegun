@@ -19,7 +19,7 @@ public class Projectile {
         MINING_PROJECTILE
     }
 
-    public static final int DEFAULT_PICKAXE_DAMAGE = 1;
+    public static final int DEFAULT_PICKAXE_DAMAGE = 10; //1
 
     private Type type;
     private Hitbox hitbox;

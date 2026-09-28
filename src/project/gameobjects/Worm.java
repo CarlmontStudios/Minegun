@@ -205,16 +205,9 @@ public class Worm {
             default:
                 throw new IllegalArgumentException("Invalid direction: " + frontDirection);
         }
-        Direction d = frontDirection; // Initialize d to frontDirection to enter the loop
 
-        Direction impossibleDirectionTwo = d;
 
-        while(d == impossibleDirection || (d == impossibleDirectionTwo && failing)){
-            d = Grid.getRandomDirection();
-            System.out.println("supposedly random direction:" + d);
-        }
-
-        return d;
+        return impossibleDirection;
     }
 
     //#region GENERATION
@@ -266,18 +259,33 @@ public class Worm {
         double angle = Math.atan2(Player.pixelY - body[0].getY() * Grid.BLOCK_SIZE, Player.pixelX - body[0].getX() * Grid.BLOCK_SIZE);
         return Math.toDegrees(angle);
     }
-
+    boolean attacking = false;
+    boolean pathFinding = false;
+    boolean circling = false;
     private void pathfind_to_player(){
-
-        if (Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), headDirection)){
+        //IF THE WORM IS JUST TRYING TO GET CLOSER TO THE PLAYER
+        if (Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget())){ //Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), headDirection)
+            
+            if (!pathFinding)
+                System.out.println("moving towards player");
+            pathFinding = true;
+            attacking = false;
+            circling = false;
             headDirection = getDirectionTowardsTarget();
             body[0].setPendingDirection(headDirection);
             moveForward();
-    
-        } else if (getDistanceToPlayer() <= attackRange){
-            System.out.println("attacking, distance = " + getDistanceToPlayer());
             
-        } else {
+        }//IF THE WORM IS WITHIN DISTANCE TO ATTACK
+         else if (!Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget()) && getDistanceToPlayer() <= attackRange){
+            if (!attacking)
+                System.out.println("attacking, distance = " + getDistanceToPlayer());
+            attacking = true;
+            pathFinding = false;
+            circling = false;
+        }  else if (!Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget()) && getDistanceToPlayer() > attackRange){
+            
+            //IF THE WORM NEEDS TO CIRCLE AROUND A CAVE TO GET TO THE PLAYER
+            if (!circling){
             int count_clockwise = calculateShortestPath(1)[0];
             int count_counterclockwise = calculateShortestPath(-1)[0];
             System.out.println("clockwise: " + count_clockwise + "counterclockwise" + count_counterclockwise);
@@ -285,17 +293,20 @@ public class Worm {
                 int[] result = calculateShortestPath(1);
                 Direction firstDirection = Grid.directions[result[1]];
                 headDirection = firstDirection;
+                System.out.println("first direction: " + firstDirection);
                 body[0].setPendingDirection(firstDirection);
 
             } else{
                 int[] result = calculateShortestPath(-1);
                 Direction firstDirection = Grid.directions[result[1]];
                 headDirection = firstDirection;
+                System.out.println("first direction: " + firstDirection);
                 body[0].setPendingDirection(firstDirection);
             }
 
             moveForward();
-            
+            }
+            circling = true;
         
         }
 
@@ -326,24 +337,30 @@ public class Worm {
         
         int count = 0;
         Direction firstDirection = body[0].getDirection(); //represents the direction the worm will first move in when it goes in this path. initialized to the head's direction
-
+        Direction ignoreDirection; //the direction that would bring the checking position back to the last one
+        double checkAngle = Math.toDegrees(Math.atan2(Player.pixelY - checkY * Grid.BLOCK_SIZE, Player.pixelX - checkX * Grid.BLOCK_SIZE));
+        Direction checkDirection = Grid.degreesToDirection_swing_coords(checkAngle);
         while (getDistanceToPlayer(checkX, checkY) > attackRange){
             // double checkDistance = getDistanceToPlayer();
-            double checkAngle = Math.toDegrees(Math.atan2(Player.pixelY - checkY * Grid.BLOCK_SIZE, Player.pixelX - checkX * Grid.BLOCK_SIZE));
+            checkAngle = Math.toDegrees(Math.atan2(Player.pixelY - checkY * Grid.BLOCK_SIZE, Player.pixelX - checkX * Grid.BLOCK_SIZE));
             double angleIncrement = 0.0;
-            System.out.println("count: " + count + " direction: " + Grid.degreesToDirection_swing_coords(checkAngle) + " angle: " + checkAngle);
+            ignoreDirection = getImpossibleDirection(checkDirection);
+            checkDirection = Grid.degreesToDirection_swing_coords(checkAngle);
+            System.out.println("count: " + count + " direction: " + checkDirection + " angle: " + checkAngle);
             System.out.println("X: " + checkX + "Y: " + checkY);
            
         
             // rotate the "checking angle" around each block until it finds a direction the block can move in. This is to find the path around an open space and calculate the amount of blocks needed to travel to get there
             while (angleIncrement < 180.0 ) { //&& Grid.degreesToDirection_swing_coords(checkAngle + angleIncrement) != getImpossibleDirection(body[0].getDirection())
                 //check if it can move in the direction of the check angle
-                if (Grid.isNextBlockSolid(checkX, checkY, Grid.degreesToDirection_swing_coords(checkAngle))) {
+                if (Grid.isNextBlockSolid(checkX, checkY, checkDirection) && checkDirection != ignoreDirection) {
                     
-                    if (count == 0) firstDirection = Grid.degreesToDirection_swing_coords(checkAngle);
+                    if (count == 0) {
+                        firstDirection = checkDirection;
+                    }
                     count++;
                     //update the new checking coords
-                    switch (Grid.degreesToDirection_swing_coords(checkAngle)) {
+                    switch (checkDirection) {
                         case UP:
                             checkY--;
                             break;
@@ -359,14 +376,15 @@ public class Worm {
                     }
                     break;
                 }
-                else if (count == 0 && Grid.degreesToDirection_swing_coords(checkAngle) == getImpossibleDirection(body[0].getDirection())){
+                else if (count == 0 && checkDirection == getImpossibleDirection(body[0].getDirection())){
                     count = Integer.MAX_VALUE; //if the worm has to turn in its impossible direction to get closer to the player then don't allow it
                     firstDirection = getImpossibleDirection(body[0].getDirection());
                     return new int[]{count,firstDirection.ordinal()};
                 } else{
-                    System.out.println("incrementing");
+                    System.out.println("incrementing. angle = " + angleIncrement);
                     // If the worm can't move in the current direction, try the next direction
                     checkAngle += direction * 90.0;
+                    checkDirection = Grid.degreesToDirection_swing_coords(checkAngle);
                     angleIncrement += 90.0; // Increment the angle by 90 degrees in the specified direction
                     
                 }
