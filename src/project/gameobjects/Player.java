@@ -1,11 +1,15 @@
 package project.gameobjects;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
+
 import javax.swing.Timer;
 import project.UI.Controls;
 import project.UI.GameMap;
 import project.UI.Grid;
 import project.UI.Hitbox;
+import project.UI.Sprite;
 
 public class Player {
 
@@ -43,6 +47,8 @@ public class Player {
 
     private Hitbox hitbox;
 
+    Sprite sprite;
+
     public Player(){
         reset();
         velocityY = 0;
@@ -50,6 +56,13 @@ public class Player {
         pixelX = START_GRID_X * Grid.BLOCK_SIZE;
         pixelY = START_GRID_Y * Grid.BLOCK_SIZE;
         hitbox = new Hitbox(START_GRID_X, START_GRID_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
+
+        try {
+            sprite = new Sprite(Sprite.PLAYER, pixelX, pixelY, PLAYER_WIDTH, PLAYER_HEIGHT);
+            Grid.sprites.add(sprite);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
          //TODO: We might want to change this to deal with falling (right now you can jump up and down but can't fall)
         // drives both horizontal movement and the jump arc
@@ -193,6 +206,11 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public Image getImage() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getImage'");
     }
 
     

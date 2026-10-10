@@ -131,9 +131,10 @@ public class GameMap extends JPanel {
         // draw the player at its world position -- since deltaX/deltaY above
         // were derived specifically to center the player, this lands it in
         // the middle of the viewport every frame without any extra math
-        g2d.setColor(Player.PLAYER_COLOR);
-        g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
-                     Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
+        // placeholder for player sprite
+            // g2d.setColor(Player.PLAYER_COLOR);
+            // g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
+            //              Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
         
         //for loading sprites
         if (Hotbar.selectedSlot == 0) {
@@ -164,6 +165,11 @@ public class GameMap extends JPanel {
                     e.printStackTrace();
                 }
             }
+        }
+        if (player != null && player[0] != null) {
+            g2d.drawImage(player[0].getImage(),
+                  player[0].getPixelX(), player[0].getPixelY(),
+                  player[0].getX(), player[0].getY(), null);
         }
     }
 

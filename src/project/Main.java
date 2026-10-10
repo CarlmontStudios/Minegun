@@ -1,6 +1,10 @@
 package project;
 
+import javax.swing.Timer;
+
 import project.UI.*;
+import project.gameobjects.Projectile;
+import project.gameobjects.Worm;
 
 
 public class Main {
@@ -33,15 +37,15 @@ public class Main {
         timer.start();
     }
 
-}
 
+    {
         
         boolean testing_worm_algorithm = false;
         if (testing_worm_algorithm) {
             Grid myGrid = new Grid();
             myGrid.initializeGrid();
 
-            Worm worm = new Worm(Worm.Type.L1, 50, 50);
+            Worm worm = new Worm(Worm.Type.L1);
             System.out.println("here");
             System.out.println(worm.body.length);
             for (int i = 0; i < worm.body.length; i++) {
@@ -55,5 +59,4 @@ public class Main {
         }
 
     }
-
 }
