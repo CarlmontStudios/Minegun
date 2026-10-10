@@ -4,7 +4,6 @@ import javax.swing.Timer;
 import project.UI.*;
 import project.gameobjects.Player;
 import project.gameobjects.Projectile;
-import project.gameobjects.Worm;
 
 
 public class Main {
@@ -64,17 +63,17 @@ public class Main {
 
                 boolean reporting = true;
                 if (reporting) {
-                    System.out.println("Upper: " + upperBound);
-                    System.out.println("Lower: " + lowerBound);
-                    System.out.println("Right: " + rightBound);
-                    System.out.println("Left: " + leftBound);
+                    // System.out.println("Upper: " + upperBound);
+                    // System.out.println("Lower: " + lowerBound);
+                    // System.out.println("Right: " + rightBound);
+                    // System.out.println("Left: " + leftBound);
                 }
                 int wormX = leftBound + (int) (Math.random() * (rightBound - leftBound + 1));
                 int wormY = upperBound + (int) (Math.random() * (lowerBound - upperBound + 1));
 
-                System.out.println("wormX: " + wormX);
-                System.out.println("wormY: " + wormY);
-                Screen.worms.add(new Worm(Worm.Type.L1, wormX, wormY));
+                // System.out.println("wormX: " + wormX);
+                // System.out.println("wormY: " + wormY);
+                //Screen.worms.add(new Worm(Worm.Type.L1, wormX, wormY));
             }
                 
         });

@@ -268,17 +268,23 @@ public class Worm {
             
             if (!pathFinding)
                 System.out.println("moving towards player");
-            pathFinding = true;
+            
             attacking = false;
             circling = false;
             headDirection = getDirectionTowardsTarget();
             body[0].setPendingDirection(headDirection);
+            if (!pathFinding)
+                System.out.println("pending direction: " + body[0].getPendingDirection() + "direction: " + body[0].getDirection());
+            
             moveForward();
+            pathFinding = true;
             
         }//IF THE WORM IS WITHIN DISTANCE TO ATTACK
          else if (!Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget()) && getDistanceToPlayer() <= attackRange){
             if (!attacking)
                 System.out.println("attacking, distance = " + getDistanceToPlayer());
+            headDirection = getDirectionTowardsTarget();
+            body[0].setPendingDirection(headDirection);
             attacking = true;
             pathFinding = false;
             circling = false;
