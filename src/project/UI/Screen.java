@@ -22,6 +22,7 @@ public class Screen {
     public static ArrayList<Sprite> wormSprites = new ArrayList<>();
     Grid grid;
     JLayeredPane gamePanel;
+    public static Inventory inventoryGUI;
 
     public static final Color DIRT_COLOR_0 = new Color(40, 20, 0);
     public static final Color DIRT_COLOR_1 = new Color(61, 30, 0);
@@ -89,14 +90,18 @@ public class Screen {
                 Hotbar.selectedSlot = 0; // Initialize selected slot to 0
                 
 
-                
+                inventoryGUI = new Inventory();
+                inventoryGUI.setBounds((VIEWPORT_WIDTH-inventoryGUI.width)/2,(VIEWPORT_HEIGHT-inventoryGUI.height)/2,inventoryGUI.width,inventoryGUI.height);
+                inventoryGUI.setVisible(false);
+                gamePanel.add(inventoryGUI, JLayeredPane.PALETTE_LAYER);
+
                 gamePanel.add(hotbar, JLayeredPane.PALETTE_LAYER);
                 InventoryButton inventoryButton = new InventoryButton();
+                inventoryButton.setFocusable(false);
                 gamePanel.add(inventoryButton, JLayeredPane.PALETTE_LAYER);
                 hotbar.setBounds(Hotbar.HOTBAR_X, Hotbar.HOTBAR_Y, Hotbar.HOTBAR_WIDTH, Hotbar.HOTBAR_HEIGHT);
                 inventoryButton.setBounds(InventoryButton.INVENTORY_BUTTON_X, InventoryButton.INVENTORY_BUTTON_Y, InventoryButton.INVENTORY_BUTTON_WIDTH, InventoryButton.INVENTORY_BUTTON_HEIGHT);
                 hotbar.setVisible(true);
-
                 // code to test worms
                 //worms = new Worm[5];
                 //for (int i = 0; i < worms.length; i++) {

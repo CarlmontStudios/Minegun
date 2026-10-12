@@ -9,6 +9,13 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "project.Main",
+            "projectName": "Minegun_925df74e"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "project.Main",
             "projectName": "Minegun_a181af1d"
         },
         {

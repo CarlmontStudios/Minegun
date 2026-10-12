@@ -23,7 +23,8 @@ public class InventoryButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 inventoryOpen = !inventoryOpen;
-                Screen.inv[0].setVisible(inventoryOpen);
+                Screen.inventoryGUI.setVisible(inventoryOpen);
+                // Screen.inv[0].setVisible(inventoryOpen);
                 if (inventoryOpen) {
                     try {
                         sprite.setImagePath(Sprite.HIGHLIGHTED_INVENTORY_BUTTON);
