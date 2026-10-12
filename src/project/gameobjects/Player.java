@@ -25,7 +25,7 @@ public class Player {
     // rendering (top-left corner at pixelX/pixelY, same convention as grid squares)
     // in grid squares
     public static final int PLAYER_WIDTH = 1;
-    public static final int PLAYER_HEIGHT = 2;
+    public static final int PLAYER_HEIGHT = 1;
 
     //This is temporary
     //TODO: change the player representation to a sprite
@@ -47,7 +47,7 @@ public class Player {
 
     private Hitbox hitbox;
 
-    Sprite sprite;
+    public Sprite sprite;
 
     public Player(){
         reset();
@@ -58,7 +58,7 @@ public class Player {
         hitbox = new Hitbox(START_GRID_X, START_GRID_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
         try {
-            sprite = new Sprite(Sprite.PLAYER, pixelX, pixelY, PLAYER_WIDTH, PLAYER_HEIGHT);
+            sprite = new Sprite(Sprite.PLAYER, pixelX, pixelY, PLAYER_WIDTH*Grid.BLOCK_SIZE, PLAYER_HEIGHT*Grid.BLOCK_SIZE, true);
             Grid.sprites.add(sprite);
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,6 +100,7 @@ public class Player {
             hitbox.setX((int) Math.ceil((pixelX + amount) / 40)); //for preventing collision
             pixelX = hitbox.getPixelX();
         }
+        sprite.setPixelX(pixelX);
     }
 
     public void moveRight(int amount) {
@@ -109,6 +110,7 @@ public class Player {
             hitbox.setX((int) Math.floor((pixelX - amount) / 40)); //for preventing collision
             pixelX = hitbox.getPixelX();
         }
+        sprite.setPixelX(pixelX);
     }
 
     public void startJump() {
@@ -125,6 +127,7 @@ public class Player {
 
         pixelY += velocityY;
         hitbox.setPixelY((int) pixelY);
+        sprite.setPixelY(pixelY);
         velocityY += G;
 
         //these are checks that make sure the player won't phase through solid blocks when they are jumping/falling
@@ -132,6 +135,7 @@ public class Player {
             velocityY = 0;
             hitbox.setY((int) Math.ceil(pixelY / 40.0)); //for preventing collision
             pixelY = hitbox.getPixelY();
+            sprite.setPixelY(pixelY);
             //System.out.println("Hit roof");
             return;
         }
@@ -140,9 +144,12 @@ public class Player {
             velocityY = 0;
             hitbox.setY(pixelY / 40); //for preventing collision
             pixelY = hitbox.getPixelY();
+            sprite.setPixelY(pixelY);
             //System.out.println("Hit ground");
             //return;
         }
+
+        
     }
 
     // --- coordinate accessors ---
@@ -207,13 +214,5 @@ public class Player {
         }
         return false;
     }
-
-    public Image getImage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getImage'");
-    }
-
-    
-    
     
 }

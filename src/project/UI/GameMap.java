@@ -70,6 +70,7 @@ public class GameMap extends JPanel {
         // player's current pixel position always lands in the middle of
         // the visible area. This is recalculated every frame, so it works
         // for the very first frame too (no separate "starting bounds" needed).
+        if (GameMap.player[0] == null) return;
         deltaX = (int) (viewportWidth / 2 - GameMap.player[0].getPixelX());
         deltaY = (int) (viewportHeight / 2 - GameMap.player[0].getPixelY());
 
@@ -166,11 +167,11 @@ public class GameMap extends JPanel {
                 }
             }
         }
-        if (player != null && player[0] != null) {
-            g2d.drawImage(player[0].getImage(),
-                  player[0].getPixelX(), player[0].getPixelY(),
-                  player[0].getX(), player[0].getY(), null);
-        }
+        //if (GameMap.player != null && GameMap.player[0] != null) {
+            //g2d.drawImage(GameMap.player[0].sprite.getImage(),
+            //      GameMap.player[0].getPixelX(), GameMap.player[0].getPixelY(),
+            //      GameMap.player[0].sprite.getPixelWidth(), GameMap.player[0].sprite.getPixelHeight(), null);
+        //}
     }
 
     /**
