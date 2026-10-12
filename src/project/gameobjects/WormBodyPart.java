@@ -15,7 +15,8 @@ public class WormBodyPart {
     private Direction pendingDirection;
     private Direction direction;
     Sprite sprite;
-    private int step = 5;
+    private int step = 2;
+    private int wholeBodyLength;
 
     //TODO: implement sprite representation for the worm body part
     public WormBodyPart(int x, int y, Direction direction) {
@@ -29,6 +30,7 @@ public class WormBodyPart {
         this.direction = direction;
         this.pendingDirection = direction;
         Grid.worm_grid[x][y] = 1; // Mark the grid position as occupied by the worm
+
 
         try {
             sprite = new Sprite(Sprite.WORM_TEST, x, y, 1, 1); // Assuming the sprite is 1x1 grid square
@@ -64,21 +66,21 @@ public class WormBodyPart {
     }
 
     public void setX(int x) {
-        Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
+        //Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
         this.x = x;
         this.pixelX = x * Grid.BLOCK_SIZE; // Update pixel position
         sprite.setX(x); // Update the sprite's position
-        Grid.worm_grid[x][this.y] = 1; // Mark the new position
+        //Grid.worm_grid[x][this.y] = 1; // Mark the new position
     }
 
     public void changePixelX(int dx){
-        Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
+        //Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
         if ((this.pixelX + dx) % Grid.BLOCK_SIZE == 0){ //if it has entered a new block update grid coords
             this.x = (this.pixelX + dx) / Grid.BLOCK_SIZE;
         }
         this.pixelX += dx; // Update pixel position
         sprite.setPixelX(x); // Update the sprite's position
-        Grid.worm_grid[x][y] = 1; // Mark the new position
+        //Grid.worm_grid[x][y] = 1; // Mark the new position
     }
 
     public int getY() {
@@ -90,21 +92,21 @@ public class WormBodyPart {
     }
 
     public void setY(int y) {
-        Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
+        //Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
         this.y = y;
         this.pixelY = y * Grid.BLOCK_SIZE;
         sprite.setY(y); // Update the sprite's position
-        Grid.worm_grid[this.x][y] = 1; // Mark the new position
+        //Grid.worm_grid[this.x][y] = 1; // Mark the new position
     }
 
     public void changePixelY(int dy){
-        Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
+        //Grid.worm_grid[this.x][this.y] = 0; // Clear the old position
         if ((this.pixelY + dy) % Grid.BLOCK_SIZE == 0){ //if it has entered a new block update grid coords
             this.y = (this.pixelY + dy) / Grid.BLOCK_SIZE;
         }
         this.pixelY += dy; // Update pixel position
         sprite.setPixelY(this.pixelY); // Update the sprite's position
-        Grid.worm_grid[x][y] = 1; // Mark the new position
+        //Grid.worm_grid[x][y] = 1; // Mark the new position
     }
 
     public Direction getDirection() {
@@ -158,18 +160,19 @@ public class WormBodyPart {
         // }
         sprite.setPixelX(pixelX);
         sprite.setPixelY(pixelY);
+        sprite.setAngle(Grid.directionToDegrees_swing_coords(direction));
     }
 
     public void moveForward(int i, Direction directionNextSegment, Direction pendingDirectionNextSegment) {
         //if (Math.random() < 0.01) {
             //System.out.println("moving forward");
         //}
-        if (pixelY % Grid.BLOCK_SIZE == 0 && i == 0){
-            System.out.println("changing head direction: current " + direction + "pending" + pendingDirection);
-            if (Grid.grid[x][y] == 0){
-                System.out.print("----- ON EMPTY AIR");
-            }
-        }
+        // if (pixelY % Grid.BLOCK_SIZE == 0 && i == 0){
+        //     System.out.println("changing head direction: current " + direction + "pending" + pendingDirection);
+        //     if (Grid.grid[x][y] == 0){
+        //         System.out.print("----- ON EMPTY AIR");
+        //     }
+        // }
         switch (direction) {
             case UP:
                 
@@ -240,9 +243,103 @@ public class WormBodyPart {
                 throw new IllegalArgumentException("Unknown direction: " + direction);
         }
         
-        if (pixelY % Grid.BLOCK_SIZE == 0 && i == 0){
-            System.out.println("NEW current: " + direction + "new pending: " + pendingDirection);
-        }
+        // if (pixelY % Grid.BLOCK_SIZE == 0 && i == 0){
+        //     System.out.println("NEW current: " + direction + "new pending: " + pendingDirection);
+        // }
         updateSprite();
+    }
+
+
+    public void moveBackward(int i, Direction directionNextSegment, Direction pendingDirectionNextSegment) {
+        //if (Math.random() < 0.01) {
+            //System.out.println("moving forward");
+        //}
+        // if (pixelY % Grid.BLOCK_SIZE == 0 && i == 0){
+        //     System.out.println("changing head direction: current " + direction + "pending" + pendingDirection);
+        //     if (Grid.grid[x][y] == 0){
+        //         System.out.print("----- ON EMPTY AIR");
+        //     }
+        // }
+        
+
+        switch (direction) {
+            case UP:
+                changePixelY(step);
+            
+                break;
+            case DOWN:
+                changePixelY(-step);
+                
+                break;
+            case LEFT:
+                changePixelX(step);
+                
+                break;
+            case RIGHT:
+                changePixelX(-step);
+                
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+
+        switch (direction) {
+            case UP:
+                
+                if (pixelY % Grid.BLOCK_SIZE == 0) {
+                    if (i != wholeBodyLength - 1) {
+                        direction = directionNextSegment;
+                        pendingDirection = pendingDirectionNextSegment;
+                    } else {
+                        direction = pendingDirection;
+                    }
+                }
+                break;
+            case DOWN:
+                
+                if (pixelY % Grid.BLOCK_SIZE == 0) {
+                    if (i != wholeBodyLength - 1) {
+                        direction = directionNextSegment;
+                        pendingDirection = pendingDirectionNextSegment;
+                    } else {
+                        direction = pendingDirection;
+                    }
+                }
+                break;
+            case LEFT:
+                
+                if (pixelX % Grid.BLOCK_SIZE == 0) {
+                    if (i != wholeBodyLength - 1) {
+                        direction = directionNextSegment;
+                        pendingDirection = pendingDirectionNextSegment;
+                    } else {
+                        direction = pendingDirection;
+                    }
+                }
+                break;
+            case RIGHT:
+                
+                if (pixelX % Grid.BLOCK_SIZE == 0) {
+                    if (i != wholeBodyLength - 1) {
+                        direction = directionNextSegment;
+                        pendingDirection = pendingDirectionNextSegment;
+                    } else {
+                        direction = pendingDirection;
+                    }
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+        
+        // if (pixelY % Grid.BLOCK_SIZE == 0 && i == 0){
+        //     System.out.println("NEW current: " + direction + "new pending: " + pendingDirection);
+        // }
+        updateSprite();
+    }
+
+    //this just lets the body part know how long the whole body is (used for reversing)
+    public void setBodyLength(int length){
+        this.wholeBodyLength = length;
     }
 }

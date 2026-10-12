@@ -2,6 +2,7 @@ package project.UI;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import project.utilities.Vector;
 
 public class Grid {
 
@@ -215,6 +216,51 @@ public class Grid {
                 return grid[x - 1][y] == 1;
             case RIGHT:
                 return grid[x + 1][y] == 1;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static boolean isNextBlockSafe(int x, int y, Direction direction) {
+        switch (direction) {
+            case UP:
+                return grid[x][y - 1] == 1 && worm_grid[x][y-1] == 0;
+            case DOWN:
+                return grid[x][y + 1] == 1 && worm_grid[x][y+1] == 0;
+            case LEFT:
+                return grid[x - 1][y] == 1 && worm_grid[x - 1][y] == 0;
+            case RIGHT:
+                return grid[x + 1][y] == 1 && worm_grid[x + 1][y] == 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static boolean isPreviousBlockSafe(int x, int y, Direction direction) {
+        switch (direction) {
+            case UP:
+                return grid[x][y + 1] == 1 && worm_grid[x][y+1] == 0;
+            case DOWN:
+                return grid[x][y - 1] == 1 && worm_grid[x][y - 1] == 0;
+            case LEFT:
+                return grid[x + 1][y] == 1 && worm_grid[x + 1][y] == 0;
+            case RIGHT:
+                return grid[x - 1][y] == 1 && worm_grid[x - 1][y] == 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static Vector getNextBlock(int x, int y, Direction direction){
+        switch (direction) {
+            case UP:
+                return new Vector(x, y - 1);
+            case DOWN:
+                return new Vector(x, y + 1);
+            case LEFT:
+                return new Vector(x - 1, y);
+            case RIGHT:
+                return new Vector(x + 1, y);
             default:
                 throw new IllegalArgumentException("Unknown direction: " + direction);
         }
