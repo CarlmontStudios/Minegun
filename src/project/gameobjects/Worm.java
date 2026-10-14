@@ -231,7 +231,7 @@ public class Worm {
         if (previousDirectionWhileReversing == null){
             return true;
         } else {
-            if (willEndUpStuck(d)){
+            if (d == previousDirectionWhileReversing){
                 return false;
             } else {
                 return true;

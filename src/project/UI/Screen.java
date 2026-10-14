@@ -102,7 +102,7 @@ public class Screen {
                 //    worms[i] = new Worm(Worm.Type.L1, 50 * i, 75);
                 //}
                 //worms = new Worm[1];
-                worms.add(new Worm(Worm.Type.L1, 48, 985));
+                //worms.add(new Worm(Worm.Type.L1, 48, 985));
                 frame.revalidate();
                 frame.repaint();
                 frame.requestFocusInWindow();

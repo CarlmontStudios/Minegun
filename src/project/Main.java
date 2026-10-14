@@ -2,8 +2,7 @@ package project;
 
 import javax.swing.Timer;
 import project.UI.*;
-import project.gameobjects.Player;
-import project.gameobjects.Projectile;
+import project.gameobjects.*;
 
 
 public class Main {
@@ -39,7 +38,7 @@ public class Main {
 
             // worms should spawn roughly every 20 seconds.
             // 16 miliseconds = 0.016 seconds. In a 20 second period, this will repeat 20/0.016 = 1250 times
-             if (Math.random() < 1.0 / 1250) { // should be 1250
+             if (Math.random() < 1.0 / 500) { // should be 1250
                 int x_radius = 20; // how horizontally far from the player the head of the worm can spawn
                 int y_radius = 200; // how horizontally far from the player the head of the worm can spawn, should be 200
 
@@ -73,7 +72,7 @@ public class Main {
 
                 // System.out.println("wormX: " + wormX);
                 // System.out.println("wormY: " + wormY);
-                //Screen.worms.add(new Worm(Worm.Type.L1, wormX, wormY));
+                Screen.worms.add(new Worm(Worm.Type.L1, wormX, wormY));
             }
                 
         });
