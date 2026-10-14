@@ -11,8 +11,8 @@ public class Player {
 
     // player's exact position in pixels, using the same coordinate system
     // as the grid: origin top-left, x increases right, y increases down
-    private static int pixelX;
-    private static int pixelY;
+    public static int pixelX;
+    public static int pixelY;
 
     // starting position, in grid squares (whole blocks)
     private static final int START_GRID_X = 50;
@@ -142,10 +142,10 @@ public class Player {
         return pixelY;
     }
 
-    public int getX() {
+    public static int getX() {
         return pixelX / Grid.BLOCK_SIZE;
     }
-    public int getY() {
+    public static int getY() {
         return pixelY / Grid.BLOCK_SIZE;
     }
 

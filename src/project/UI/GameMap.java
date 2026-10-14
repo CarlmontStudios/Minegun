@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -156,10 +157,25 @@ public class GameMap extends JPanel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+        double rand = Math.random();
+        if (rand < 0.01) {
+            //System.out.println("drawing worm set");
+        }
         for (Sprite sprite : Grid.sprites) {
             if (sprite != null) {
                 try {
-                    g2d.drawImage(sprite.getImage(), sprite.getPixelX(), sprite.getPixelY(), sprite.getPixelWidth(), sprite.getPixelHeight(), null);
+                    
+                    int w = sprite.getPixelWidth();
+                    int h = sprite.getPixelHeight();
+                    // rotate around the center of the sprite
+                    double cx = sprite.getPixelX() + w / 2.0;
+                    double cy = sprite.getPixelY() + h / 2.0;
+
+                    AffineTransform old = g2d.getTransform();
+                    g2d.rotate(Math.toRadians(sprite.getAngle()), cx, cy);
+                    g2d.drawImage(sprite.getImage(), sprite.getPixelX(), sprite.getPixelY(), w, h, null);
+                    g2d.setTransform(old); // restore, or everything after this is rotated
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -182,6 +198,13 @@ public class GameMap extends JPanel {
     public static int getMouseY() {
         return mouseScreenY - deltaY; // subtract deltaY to get the mouse position in world coordinates
     }
-    
+
+    public static int getDeltaX() {
+        return deltaX;
+    }
+
+    public static int getDeltaY() {
+        return deltaY;
+    }
 
 }

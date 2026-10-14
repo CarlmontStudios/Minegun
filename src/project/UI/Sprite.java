@@ -14,6 +14,7 @@ public class Sprite {
     int pixelY;
     int width;
     int height;
+    double angle;
 
     public static final String CRACKED_0 = "src/images/cracked_0.png";
     public static final String CRACKED_1 = "src/images/cracked_1.png";
@@ -34,6 +35,7 @@ public class Sprite {
         this.imagePath = imagePath;
         this.width = width;
         this.height = height;
+        this.angle = 0;
         image = ImageIO.read(new File(imagePath));
         x = 0;
         y = 0;
@@ -139,5 +141,13 @@ public class Sprite {
     }
     public int getPixelHeight() {
         return height * Grid.BLOCK_SIZE;
+    }
+
+    public double getAngle(){
+        return angle;
+    }
+
+    public void setAngle(double angle){
+        this.angle = angle;
     }
 }
