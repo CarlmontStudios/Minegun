@@ -194,7 +194,7 @@ public class Grid {
 
     public static boolean isEdgeBlock(int x, int y) {
         if (x < 0 || x >= MAP_WIDTH - 1 || y < 0 || y >= MAP_HEIGHT - 1) {
-            return false; // block is at the border and counts as edge block
+            return true; // block is at the border and counts as edge block
         }
         if (grid[x][y] == 1) { // Only consider solid blocks
             // Check the four adjacent blocks
@@ -236,6 +236,29 @@ public class Grid {
         }
     }
 
+    /**
+     * checks if the next block is safe to move in for a worm
+     * @param x the x coordinate of the "head"
+     * @param y the y coordinate of the "head"
+     * @param direction the direction the worm would move in
+     * @param positions a list of positions representing the worm's body
+     * @return
+     */
+    public static boolean isNextBlockSafe(int x, int y, Direction direction, ArrayList<Vector> positions) {
+        switch (direction) {
+            case UP:
+                return grid[x][y - 1] == 1 && worm_grid[x][y-1] == 0 && !positions.contains(new Vector(x, y - 1));
+            case DOWN:
+                return grid[x][y + 1] == 1 && worm_grid[x][y+1] == 0 && !positions.contains(new Vector(x, y + 1));
+            case LEFT:
+                return grid[x - 1][y] == 1 && worm_grid[x - 1][y] == 0 && !positions.contains(new Vector(x - 1, y));
+            case RIGHT:
+                return grid[x + 1][y] == 1 && worm_grid[x + 1][y] == 0 && !positions.contains(new Vector(x + 1, y));
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
     public static boolean isPreviousBlockSafe(int x, int y, Direction direction) {
         switch (direction) {
             case UP:
@@ -249,6 +272,17 @@ public class Grid {
             default:
                 throw new IllegalArgumentException("Unknown direction: " + direction);
         }
+    }
+
+    /**
+     * returns whether the current specified block is safe for a worm to be in, given the worm body
+     * @param x x coordinate of block
+     * @param y y coordinate of block
+     * @param positions positions of worm
+     * @return
+     */
+    public static boolean isCurrentBlockSafe(int x, int y, ArrayList<Vector> positions){
+        return grid[x][y] == 1 && worm_grid[x][y] == 0 && !positions.contains(new Vector(x, y));
     }
 
     public static Vector getNextBlock(int x, int y, Direction direction){

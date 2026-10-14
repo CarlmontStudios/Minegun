@@ -31,6 +31,9 @@ public class Worm {
 
     int countForDebugging = 0;
 
+    boolean reversing = false;
+    int reversingCounter = 0;
+
     public Worm(Type type, int x, int y) {
         this.type = type;
         this.x = x;
@@ -223,58 +226,12 @@ public class Worm {
     //#region GENERATION
 
 
-    
-
-    //#region MOVEMENT
-    // public void moveForward() {
-
-    //     for (int i = body.length - 1; i > 0; i++) {
-    //         body[i].setX(body[i-1].getX());
-    //         body[i].setY(body[i-1].getY()); // because a part should always be moving towards the part directly in front of it
-            
-    //         switch(body[i-1].getDirection()) {
-    //             case UP:
-    //                 body[i].setDirection(Direction.UP);
-    //             case DOWN:
-    //                 body[i].setDirection(Direction.DOWN);
-    //             case LEFT:
-    //                 body[i].setDirection(Direction.LEFT);
-    //             case RIGHT:
-    //                 body[i].setDirection(Direction.RIGHT);
-    //             default:
-    //                 System.out.println("TODO: Put whatever is supposed to be here.");  
-    //         }
-    //     }
-
-    //     switch(body[0].getDirection()) {
-    //             case UP:
-    //                 body[0].setY(body[0].getY()-1);
-    //             case DOWN:
-    //                 body[0].setY(body[0].getY()+1);
-    //             case LEFT:
-    //                 body[0].setX(body[0].getX()-1);
-    //             case RIGHT:
-    //                 body[0].setX(body[0].getX()+1);
-    //             default:
-    //                 System.out.println("TODO: Put whatever is supposed to be here.");  
-    //         }
-    // }
-
-    // private void print_worm_grid(){
-    //     System.out.println("----------------");
-    //     for (int i = body[0].getY()-5; i < body[0].getY() + 5; i ++){
-    //         for (int j = body[0].getX()-5; j < body[0].getX() + 5; j ++){
-    //             System.out.println(" " + Grid.worm_grid[i][j])
-    //         }
-    //     }
-    // }
-
     //used for checking if it is not going back to the spot it just reversed from
     private boolean notHeadedInPreviousSpot(Direction d){
         if (previousDirectionWhileReversing == null){
             return true;
         } else {
-            if (previousDirectionWhileReversing == d){
+            if (willEndUpStuck(d)){
                 return false;
             } else {
                 return true;
@@ -343,23 +300,49 @@ public class Worm {
         
     }
 
-    private double getAngleTowardsTarget(){
-        double angle = Math.atan2(Player.pixelY - body[0].getY() * Grid.BLOCK_SIZE, Player.pixelX - body[0].getX() * Grid.BLOCK_SIZE);
-        return Math.toDegrees(angle);
+    private boolean isPlayerInRange(int x, int y){
+
+        if (getDistanceToPlayer(x, y) > attackRange){
+            return false;
+        } 
+        //sets the starting check position in pixel coords
+        int checkX = x * Grid.BLOCK_SIZE + 20;
+        int checkY = y * Grid.BLOCK_SIZE + 20;
+        // double theta = get
+        return true;
+
     }
+
+    private Direction getDirectionTowardsTarget(int x, int y){
+        double angle = Math.toDegrees(Math.atan2(Player.pixelY - y * Grid.BLOCK_SIZE, Player.pixelX - x * Grid.BLOCK_SIZE));
+        return Grid.degreesToDirection_swing_coords(angle);
+    }
+
+    //#region PATHFINDING
     boolean attacking = false;
     boolean pathFinding = false;
     boolean circling = false;
     private void pathfind_to_player(){
         
-        if (isStuck()){
+        //IF THE WORM IS WITHIN DISTANCE TO ATTACK
+        if (!Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget()) && getDistanceToPlayer() <= attackRange){
+            //if (!attacking)
+                //System.out.println("attacking, distance = " + getDistanceToPlayer());
+            headDirection = getDirectionTowardsTarget();
+            body[0].setPendingDirection(headDirection);
+            attacking = true;
+            pathFinding = false;
+            circling = false;
+        }
+        else if (isStuck()){
             // make the worm take damage for being stuck
             System.out.println("stuck");
-        } else if (cantMoveForward()){
+        } else if (willEndUpStuck(getDirectionTowardsTarget()) && getAvailableDirections() <=1){
             System.out.println("reversing");
             //if the worm can move directly backwards
             if (Grid.isPreviousBlockSafe(body[body.length - 1].getX(), body[body.length - 1].getY(), body[body.length - 1].getDirection())){
                 body[body.length-1].setPendingDirection(body[body.length - 1].getDirection());
+                
                 reverse();
             } else {
                 //if the worm has to change the direction of its very back to reverse:
@@ -370,34 +353,30 @@ public class Worm {
                     if (Grid.isPreviousBlockSafe(body[body.length - 1].getX(), body[body.length - 1].getY(), d)){
                         body[length - 1].setPendingDirection(d);
                         reverse();
+                        
                         break;
                     }
                 }
             }
         }
-        //IF THE WORM IS WITHIN DISTANCE TO ATTACK
-        else if (!Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget()) && getDistanceToPlayer() <= attackRange){
-            //if (!attacking)
-                //System.out.println("attacking, distance = " + getDistanceToPlayer());
-            headDirection = getDirectionTowardsTarget();
-            body[0].setPendingDirection(headDirection);
-            attacking = true;
-            pathFinding = false;
-            circling = false;
-        } else if (Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget())){ //Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), headDirection)
+         else if (Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget())){ //Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), headDirection)
             //IF THE WORM IS JUST TRYING TO GET CLOSER TO THE PLAYER
             if (!pathFinding)
                 System.out.println("moving towards player");
             
+
             attacking = false;
             circling = false;
             headDirection = getDirectionTowardsTarget();
             body[0].setPendingDirection(headDirection);
-            previousDirectionWhileReversing = null;
+            if (headDirection != previousDirectionWhileReversing && reversingCounter >= 2){
+                previousDirectionWhileReversing = null;
+            }
+            
             //if (!pathFinding)
                 //System.out.println("pending direction: " + body[0].getPendingDirection() + "direction: " + body[0].getDirection());
             if ((body[0].getPixelY() % Grid.BLOCK_SIZE == 0 && body[0].getPixelX() % Grid.BLOCK_SIZE == 0)){
-                System.out.println("head direction(pending direction" + headDirection + "current direction: " + body[0].getDirection() + "x: " + countForDebugging);
+                System.out.println("head direction(pending direction " + headDirection + " current direction: " + body[0].getDirection() + " x: " + countForDebugging);
                 countForDebugging++;
             }
             moveForward();
@@ -409,7 +388,7 @@ public class Worm {
             if (!circling){
                 circling = true;
             }
-            
+            reversing = true;
             int count_clockwise = calculateShortestPath(1)[0];
             int count_counterclockwise = calculateShortestPath(-1)[0];
             //System.out.println("clockwise: " + count_clockwise + "counterclockwise" + count_counterclockwise);
@@ -456,6 +435,21 @@ public class Worm {
         return stuck;
     }
 
+    private int getAvailableDirections(){
+        int count = 0;
+        Direction[] directions = Direction.values();
+
+        //check if it can move anywhere from its head
+        for (int i = 0; i < directions.length; i++){
+            Direction d = directions[i];
+            if (Grid.isNextBlockSafe(body[0].getX(), body[0].getY(), d)){
+                count++;
+            }
+        }
+        return count;
+    }
+
+
     private boolean cantMoveForward(){
         boolean stuck = true;
         Direction[] directions = Direction.values();
@@ -485,20 +479,27 @@ public class Worm {
         return stuck;
     }
 
-    private boolean willEndUpStuck(){
+    private boolean willEndUpStuck(Direction firstDirection){
         ArrayList<Vector> positions = new ArrayList<>();
         //put the positions of the worm's body into the arraylist
         for (WormBodyPart p : body){
             positions.add(0, new Vector(p.getX(), p.getY()));
         }
+
         int checkX = body[0].getX();
         int checkY = body[0].getY();
+
         //check the next 10 spots it would take along its predicted path
-        for (int i = 0; i < 10; i ++){
-            Direction d = getDirectionTowardsTarget();
+        for (int i = 0; i < 5; i ++){
+            // if (getDistanceToPlayer(checkX, checkY) < attackRange && Grid.isEdgeBlock(checkX, checkY)){
+            //     return false; //if the worm will end up in a spot where it can attack it will not count as being stuck
+            // }
+            Direction d = getDirectionTowardsTarget(checkX, checkY);
+            if (i == 0) d = firstDirection; 
             Vector nextPos = Grid.getNextBlock(checkX, checkY, d);
             //checks to see if this next block would end up making the worm stuck
-            if (cantMoveForward(nextPos.getX(),nextPos.getY(), positions)){
+            if (!Grid.isNextBlockSafe(checkX, checkY, d, positions)){
+                //if its not safe to move in that direction then check the other directions
                 ArrayList<Direction> directions = new ArrayList<>(Arrays.asList(Direction.values()));
                 directions.remove(d);
                 // Direction bestD = d;
@@ -508,10 +509,10 @@ public class Worm {
                 while (!directions.isEmpty()){
                 
                     d = directions.get(0);
-                    nextPos = Grid.getNextBlock(body[0].getX(), body[0].getY(), d);
+                    nextPos = Grid.getNextBlock(checkX, checkY, d);
                     directions.remove(d);
                     //if it is able to move forward in this direction
-                    if (!cantMoveForward(nextPos.getX(), nextPos.getY(), positions)){
+                    if (!cantMoveForward(nextPos.getX(), nextPos.getY(), positions) && Grid.isCurrentBlockSafe(nextPos.getX(), nextPos.getY(), positions)){
                         double distance = getDistanceToPlayer(nextPos.getX(), nextPos.getY());
                         if (distance < bestDistance){
                         
@@ -523,7 +524,8 @@ public class Worm {
                     }
                     
                 }
-                if (bestDistance == Double.MAX_VALUE) return true; //this will happen if none of the directions allowed the worm to move
+                if (bestDistance == Double.MAX_VALUE) 
+                    return true; //this will happen if none of the directions allowed the worm to move
                 nextPos = bestPos;
                 
             }
@@ -539,8 +541,16 @@ public class Worm {
         return false; //if it never ends up stuck return false
     }
 
+    //#region MOVEMENT
+
     private void moveForward(){
-        
+        reversing = false;
+        reversingCounter = 0;
+        if (body[0].getPixelX() % Grid.BLOCK_SIZE == 0 && body[0].getPixelY() % Grid.BLOCK_SIZE == 0){
+            System.out.println("reversing counter: " + reversingCounter);
+            System.out.println("head direction: " + body[0].getDirection());
+            System.out.println("is reversing direction null?" + previousDirectionWhileReversing == null);
+        }
         for (WormBodyPart p : body) Grid.worm_grid[p.getX()][p.getY()] = 0;
         for (int i = body.length - 1; i >=0; i--) {
                 //System.out.println("just entered worm body part for loop");
@@ -558,7 +568,9 @@ public class Worm {
     private void reverse(){
         for (WormBodyPart p : body) Grid.worm_grid[p.getX()][p.getY()] = 0;
         
-        
+        reversing = true;
+        previousDirectionWhileReversing = body[0].getDirection();
+        System.out.println("head direction: " + body[0].getDirection());
         for (int i = 0; i < body.length; i++) {
                 //System.out.println("just entered worm body part for loop");
                 if (i != body.length - 1) {
@@ -567,8 +579,14 @@ public class Worm {
                     body[i].moveBackward(i, null, null);
                 }
         }
-        previousDirectionWhileReversing = body[0].getDirection();
-        System.out.println(previousDirectionWhileReversing);
+
+        if (body[0].getPixelX() % Grid.BLOCK_SIZE == 0 && body[0].getPixelY() % Grid.BLOCK_SIZE == 0){
+            reversingCounter++;
+            System.out.println("reversing counter: " + reversingCounter);
+            System.out.println("previous direction while reversing" + previousDirectionWhileReversing);
+        }
+        
+        //System.out.println(previousDirectionWhileReversing);
         
         for (WormBodyPart p : body) Grid.worm_grid[p.getX()][p.getY()] = 1;
         
@@ -676,6 +694,10 @@ public class Worm {
 
     private double getDistanceToPlayer(int x, int y){
         return Math.sqrt(Math.pow(Player.pixelX - x * Grid.BLOCK_SIZE, 2) + Math.pow(Player.pixelY - y * Grid.BLOCK_SIZE, 2));
+    }
+
+    private double getAngleToPlayer(int x, int y){
+        return Math.atan2(Player.pixelY - y * Grid.BLOCK_SIZE, Player.pixelX - x * Grid.BLOCK_SIZE);
     }
 
     
