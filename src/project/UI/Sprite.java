@@ -14,8 +14,6 @@ public class Sprite {
     int pixelY;
     int width;
     int height;
-    int pixelWidth;
-    int pixelHeight;
 
     public static final String CRACKED_0 = "src/images/cracked_0.png";
     public static final String CRACKED_1 = "src/images/cracked_1.png";
@@ -37,8 +35,6 @@ public class Sprite {
         this.imagePath = imagePath;
         this.width = width;
         this.height = height;
-        this.pixelWidth = width * Grid.BLOCK_SIZE;
-        this.pixelHeight = height * Grid.BLOCK_SIZE;
         image = ImageIO.read(new File(imagePath));
         x = 0;
         y = 0;
@@ -60,8 +56,6 @@ public class Sprite {
         image = ImageIO.read(new File(imagePath));
         this.width = width;
         this.height = height;
-        this.pixelWidth = width * Grid.BLOCK_SIZE;
-        this.pixelHeight = height * Grid.BLOCK_SIZE;
         this.x = x;
         this.y = y;
         pixelX = 0;
@@ -83,8 +77,6 @@ public class Sprite {
         image = ImageIO.read(new File(imagePath));
         this.pixelX = pixelX;
         this.pixelY = pixelY;
-        this.pixelWidth = pixelWidth;
-        this.pixelHeight = pixelHeight;
         this.x = pixelX / Grid.BLOCK_SIZE;
         this.y = pixelY / Grid.BLOCK_SIZE;
         this.width = pixelWidth / Grid.BLOCK_SIZE;
@@ -136,25 +128,17 @@ public class Sprite {
     }
     public void setWidth(int width) {
         this.width = width;
-        this.pixelWidth = width * Grid.BLOCK_SIZE;
     }
     public int getHeight() {
         return height;
     }
     public void setHeight(int height) {
         this.height = height;
-        this.pixelHeight = height * Grid.BLOCK_SIZE;
     }
     public int getPixelWidth() {
-        return pixelWidth;
+        return width * Grid.BLOCK_SIZE;
     }
     public int getPixelHeight() {
-        return pixelHeight * Grid.BLOCK_SIZE;
-    }
-    public void setPixelWidth(int pixelWidth) {
-    this.pixelWidth = pixelWidth;
-}
-    public void setPixelHeight(int pixelHeight) {
-        this.pixelHeight = pixelHeight;
+        return height * Grid.BLOCK_SIZE;
     }
 }
