@@ -25,12 +25,9 @@ public class Player {
     // rendering (top-left corner at pixelX/pixelY, same convention as grid squares)
     // in grid squares
     public static final int PLAYER_WIDTH = 1;
-    public static final int PLAYER_HEIGHT = 1;
+    public static final int PLAYER_HEIGHT = 2;
 
-    //This is temporary
-    //TODO: change the player representation to a sprite
-    
-    public static final java.awt.Color PLAYER_COLOR = Color.GREEN;
+    public static final int SPRITE_HEIGHT = 2;
 
     // --- jump physics ---
     public static final double MAX_JUMP_HEIGHT = 2.0 * Grid.BLOCK_SIZE; // pixels (1.25 blocks)
@@ -58,7 +55,8 @@ public class Player {
         hitbox = new Hitbox(START_GRID_X, START_GRID_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
         try {
-            sprite = new Sprite(Sprite.PLAYER, pixelX, pixelY, PLAYER_WIDTH*Grid.BLOCK_SIZE, PLAYER_HEIGHT*Grid.BLOCK_SIZE, true);
+            sprite = new Sprite(Sprite.PLAYER, pixelX, pixelY,
+                PLAYER_WIDTH*Grid.BLOCK_SIZE, SPRITE_HEIGHT*Grid.BLOCK_SIZE, true);
             Grid.sprites.add(sprite);
         } catch (IOException e) {
             e.printStackTrace();
