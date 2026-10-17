@@ -27,6 +27,9 @@ public class Worm {
     private int pixelCoordsX; 
     private int pixelCoordsY;
 
+    boolean inAttackMode = false;
+    boolean peakingHead = false;
+
     private Direction previousDirectionWhileReversing;
 
     int countForDebugging = 0;
@@ -244,7 +247,7 @@ public class Worm {
         Direction d = Grid.degreesToDirection_swing_coords(angle);
         Vector checkPosition = Grid.getNextBlock(body[0].getX(), body[0].getY(), d);
         if ((d != getImpossibleDirection(body[0].getDirection()) 
-        && Grid.worm_grid[checkPosition.getX()][checkPosition.getY()] == 0) && notHeadedInPreviousSpot(d)) {
+        && Grid.worm_grid[checkPosition.getX()][checkPosition.getY()] == 0) && !willEndUpStuck(d)) {
             //System.out.println("regular mode");
             
             return d;
@@ -266,7 +269,7 @@ public class Worm {
                 Direction checkDirection = directions.get(0);
                 Vector check = Grid.getNextBlock(body[0].getX(), body[0].getY(), checkDirection);
                 directions.remove(checkDirection);
-                if ((Grid.worm_grid[check.getX()][check.getY()] == 1 || Grid.grid[check.getX()][check.getY()] == 0) || !notHeadedInPreviousSpot(checkDirection)){
+                if ((Grid.worm_grid[check.getX()][check.getY()] == 1 || Grid.grid[check.getX()][check.getY()] == 0) || willEndUpStuck(checkDirection)){
                     //System.out.println("skipping direction: " + checkDirection + "worm occupied? " + (Grid.worm_grid[check.getX()][check.getY()] == 1) + "open air? " + (Grid.grid[check.getX()][check.getY()] == 0));
                     continue; //dont count the direction if the worm would move into itself or another worm
                 }
@@ -300,6 +303,25 @@ public class Worm {
         
     }
 
+    private Direction getAttackingDirection(){
+
+        Direction[] directions = Direction.values();
+        double bestDistance = Double.MAX_VALUE;
+        Direction bestDirection = null;
+
+        for (Direction d : directions){
+            Vector check = Grid.getNextBlock(body[0].getX(), body[0].getY(), d);
+            if (Grid.grid[check.getX()][check.getY()] == 0){
+                if (getDistanceToPlayer(check.getX(), check.getY()) < bestDistance){
+                    bestDistance = getDistanceToPlayer(check.getX(), check.getY());
+                    bestDirection = d;
+                }
+            }
+        }
+        return bestDirection;
+
+    }
+
     private boolean isPlayerInRange(int x, int y){
 
         if (getDistanceToPlayer(x, y) > attackRange){
@@ -328,11 +350,29 @@ public class Worm {
         if (!Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget()) && getDistanceToPlayer() <= attackRange){
             //if (!attacking)
                 //System.out.println("attacking, distance = " + getDistanceToPlayer());
-            headDirection = getDirectionTowardsTarget();
-            body[0].setPendingDirection(headDirection);
+            
             attacking = true;
             pathFinding = false;
             circling = false;
+
+            inAttackMode = true;
+            Vector currentHeadPos = new Vector(body[0].getX(), body[0].getY());
+            if (Grid.grid[currentHeadPos.getX()][currentHeadPos.getY()] == 1){
+                peakingHead = true;
+                headDirection = getAttackingDirection();
+                body[0].setPendingDirection(headDirection);
+                moveForward();
+            }
+        } else if (inAttackMode && getDistanceToPlayer() > attackRange){
+            peakingHead = false;
+            Vector currentHeadPos = new Vector(body[0].getX(), body[0].getY());
+            if (Grid.grid[currentHeadPos.getX()][currentHeadPos.getY()] == 0){
+               
+                reverse();
+            } else {
+                
+                inAttackMode = false;
+            }
         }
         else if (isStuck()){
             // make the worm take damage for being stuck

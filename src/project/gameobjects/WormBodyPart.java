@@ -15,7 +15,7 @@ public class WormBodyPart {
     private Direction pendingDirection;
     private Direction direction;
     Sprite sprite;
-    private int step = 2;
+    private int step = 1;
     private int wholeBodyLength;
 
     //TODO: implement sprite representation for the worm body part

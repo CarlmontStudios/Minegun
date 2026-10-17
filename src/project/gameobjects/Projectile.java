@@ -19,7 +19,7 @@ public class Projectile {
         MINING_PROJECTILE
     }
 
-    public static final int DEFAULT_PICKAXE_DAMAGE = 10; //1
+    public static final int DEFAULT_PICKAXE_DAMAGE = 1; //1
 
     private Type type;
     private Hitbox hitbox;
@@ -59,7 +59,9 @@ public class Projectile {
                     if (Hitbox.getCollidedBlock(hitbox) != null) {
                         collidedBlocks.addAll(Hitbox.getCollidedBlocks(hitbox));
                         //System.out.println("collided blocks: " + collidedBlocks);
-                        if (collidedBlocks.contains(targetedBlock)) {
+                        int blockX = targetedBlock.getX();
+                        int blockY = targetedBlock.getY();
+                        if (collidedBlocks.contains(targetedBlock) && Grid.worm_grid[blockX][blockY] == 0) {
                             //System.out.println("mining projectile hit targeted block at: " + targetedBlock.getX() + ", " + targetedBlock.getY());
                             //Vector collidedBlock = Hitbox.getCollidedBlock(hitbox);
                             damageBlock(targetedBlock);
