@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import project.gameobjects.Player;
 import project.gameobjects.Worm;
@@ -64,7 +63,7 @@ public class Screen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //all the code that runs once you press the start button(like initializing the game map and stuff)
-                System.out.println("Button was clicked");
+                //System.out.println("Button was clicked");
                 button.setVisible(false);
                 
                 frame.add(gamePanel);
@@ -97,11 +96,13 @@ public class Screen {
                 inventoryButton.setBounds(InventoryButton.INVENTORY_BUTTON_X, InventoryButton.INVENTORY_BUTTON_Y, InventoryButton.INVENTORY_BUTTON_WIDTH, InventoryButton.INVENTORY_BUTTON_HEIGHT);
                 hotbar.setVisible(true);
 
-                // code to test worms
+                // code to test worms -- leaving this here for now to be able to see at least one of the worms.
                 //worms = new Worm[5];
                 //for (int i = 0; i < worms.length; i++) {
                 //    worms[i] = new Worm(Worm.Type.L1, 50 * i, 75);
                 //}
+                //worms = new Worm[1];
+                //worms.add(new Worm(Worm.Type.L1, 48, 985));
                 frame.revalidate();
                 frame.repaint();
                 frame.requestFocusInWindow();

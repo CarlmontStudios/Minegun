@@ -2,6 +2,7 @@ package project.UI;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import project.utilities.Vector;
 
 public class Grid {
 
@@ -30,6 +31,8 @@ public class Grid {
         LEFT, 
         RIGHT
     }
+
+    public static Direction[] directions = Direction.values();
 
     public Grid(){
         // grid = new int[MAP_WIDTH][MAP_HEIGHT]; //grid for blocks
@@ -101,6 +104,199 @@ public class Grid {
                 return Direction.RIGHT;
             default:
                 return Direction.UP; //should never happen
+        }
+    }
+
+    /**
+     * gets direction by taking an input that uses the standard coordinate system (going counterclockwise)
+     * @param degrees
+     * @return
+     */
+    public static Direction degreesToDirection(double degrees) {
+        // Normalize degrees to be within [0, 360)
+        degrees = degrees % 360;
+        if (degrees < 0) {
+            degrees += 360;
+        }
+
+        if (degrees >= 45 && degrees < 135) {
+            return Direction.UP;
+        } else if (degrees >= 135 && degrees < 225) {
+            return Direction.LEFT;
+        } else if (degrees >= 225 && degrees < 315) {
+            return Direction.DOWN;
+        } else {
+            return Direction.RIGHT;
+        }
+    }
+    /**
+     * gets direction by taking an input that uses swing's coordinate system (going clockwise)
+     * @param degrees
+     * @return
+     */
+    public static Direction degreesToDirection_swing_coords(double degrees) {
+        // Normalize degrees to be within [0, 360)
+        degrees = degrees % 360;
+        if (degrees < 0) {
+            degrees += 360;
+        }
+
+        if (degrees >= 45 && degrees < 135) {
+            return Direction.DOWN;
+        } else if (degrees >= 135 && degrees < 225) {
+            return Direction.LEFT;
+        } else if (degrees >= 225 && degrees < 315) {
+            return Direction.UP;
+        } else {
+            return Direction.RIGHT;
+        }
+    }
+
+    /**
+     * Converts a direction to its corresponding angle in degrees.
+     * @param direction The direction to convert.
+     * @return The angle in degrees.
+     */
+    public static int directionToDegrees(Direction direction) {
+        switch (direction) {
+            case UP:
+                return 90;
+            case DOWN:
+                return 270;
+            case LEFT:
+                return 180;
+            case RIGHT:
+                return 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    /**
+     * Converts a direction to its corresponding angle in degrees.
+     * @param direction The direction to convert.
+     * @return The angle in degrees.
+     */
+    public static int directionToDegrees_swing_coords(Direction direction) {
+        switch (direction) {
+            case UP:
+                return 270;
+            case DOWN:
+                return 90;
+            case LEFT:
+                return 180;
+            case RIGHT:
+                return 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static boolean isEdgeBlock(int x, int y) {
+        if (x < 0 || x >= MAP_WIDTH - 1 || y < 0 || y >= MAP_HEIGHT - 1) {
+            return true; // block is at the border and counts as edge block
+        }
+        if (grid[x][y] == 1) { // Only consider solid blocks
+            // Check the four adjacent blocks
+            if (grid[x - 1][y] == 0) return true; // Left
+            if (grid[x + 1][y] == 0) return true; // Right
+            if (grid[x][y - 1] == 0) return true; // Up
+            if (grid[x][y + 1] == 0) return true; // Down
+        }
+        return false;
+    }
+
+    public static boolean isNextBlockSolid(int x, int y, Direction direction) {
+        switch (direction) {
+            case UP:
+                return grid[x][y - 1] == 1;
+            case DOWN:
+                return grid[x][y + 1] == 1;
+            case LEFT:
+                return grid[x - 1][y] == 1;
+            case RIGHT:
+                return grid[x + 1][y] == 1;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static boolean isNextBlockSafe(int x, int y, Direction direction) {
+        switch (direction) {
+            case UP:
+                return grid[x][y - 1] == 1 && worm_grid[x][y-1] == 0;
+            case DOWN:
+                return grid[x][y + 1] == 1 && worm_grid[x][y+1] == 0;
+            case LEFT:
+                return grid[x - 1][y] == 1 && worm_grid[x - 1][y] == 0;
+            case RIGHT:
+                return grid[x + 1][y] == 1 && worm_grid[x + 1][y] == 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    /**
+     * checks if the next block is safe to move in for a worm
+     * @param x the x coordinate of the "head"
+     * @param y the y coordinate of the "head"
+     * @param direction the direction the worm would move in
+     * @param positions a list of positions representing the worm's body
+     * @return
+     */
+    public static boolean isNextBlockSafe(int x, int y, Direction direction, ArrayList<Vector> positions) {
+        switch (direction) {
+            case UP:
+                return grid[x][y - 1] == 1 && worm_grid[x][y-1] == 0 && !positions.contains(new Vector(x, y - 1));
+            case DOWN:
+                return grid[x][y + 1] == 1 && worm_grid[x][y+1] == 0 && !positions.contains(new Vector(x, y + 1));
+            case LEFT:
+                return grid[x - 1][y] == 1 && worm_grid[x - 1][y] == 0 && !positions.contains(new Vector(x - 1, y));
+            case RIGHT:
+                return grid[x + 1][y] == 1 && worm_grid[x + 1][y] == 0 && !positions.contains(new Vector(x + 1, y));
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static boolean isPreviousBlockSafe(int x, int y, Direction direction) {
+        switch (direction) {
+            case UP:
+                return grid[x][y + 1] == 1 && worm_grid[x][y+1] == 0;
+            case DOWN:
+                return grid[x][y - 1] == 1 && worm_grid[x][y - 1] == 0;
+            case LEFT:
+                return grid[x + 1][y] == 1 && worm_grid[x + 1][y] == 0;
+            case RIGHT:
+                return grid[x - 1][y] == 1 && worm_grid[x - 1][y] == 0;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    /**
+     * returns whether the current specified block is safe for a worm to be in, given the worm body
+     * @param x x coordinate of block
+     * @param y y coordinate of block
+     * @param positions positions of worm
+     * @return
+     */
+    public static boolean isCurrentBlockSafe(int x, int y, ArrayList<Vector> positions){
+        return grid[x][y] == 1 && worm_grid[x][y] == 0 && !positions.contains(new Vector(x, y));
+    }
+
+    public static Vector getNextBlock(int x, int y, Direction direction){
+        switch (direction) {
+            case UP:
+                return new Vector(x, y - 1);
+            case DOWN:
+                return new Vector(x, y + 1);
+            case LEFT:
+                return new Vector(x - 1, y);
+            case RIGHT:
+                return new Vector(x + 1, y);
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
         }
     }
 
