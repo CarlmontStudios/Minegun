@@ -1,9 +1,6 @@
 package project.gameobjects;
 
-import java.awt.Color;
-import java.awt.Image;
 import java.io.IOException;
-
 import javax.swing.Timer;
 import project.UI.Controls;
 import project.UI.GameMap;
@@ -160,17 +157,17 @@ public class Player {
         return pixelY;
     }
 
-    public int getX() {
+    public static int getX() {
         return pixelX / Grid.BLOCK_SIZE;
     }
-    public int getY() {
+    public static int getY() {
         return pixelY / Grid.BLOCK_SIZE;
     }
 
-    public void setPixelX(int x) {
+    public static void setPixelX(int x) {
         pixelX = x;
     }
-    public void setPixelY(int y) {
+    public static void setPixelY(int y) {
         pixelY = y;
     }
 

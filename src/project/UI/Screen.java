@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import project.gameobjects.Player;
 import project.gameobjects.Worm;
@@ -16,7 +18,8 @@ public class Screen {
     public static final Inventory inv[] = new Inventory[1];
     private GameMap gameMap;
     public Player player;
-    public static Worm[] worms;
+    public static ArrayList<Worm> worms = new ArrayList<>();
+    public static ArrayList<Sprite> wormSprites = new ArrayList<>();
     Grid grid;
     JLayeredPane gamePanel;
 
