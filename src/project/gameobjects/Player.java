@@ -1,11 +1,12 @@
 package project.gameobjects;
 
-import java.awt.Color;
+import java.io.IOException;
 import javax.swing.Timer;
 import project.UI.Controls;
 import project.UI.GameMap;
 import project.UI.Grid;
 import project.UI.Hitbox;
+import project.UI.Sprite;
 
 public class Player {
 
@@ -23,10 +24,7 @@ public class Player {
     public static final int PLAYER_WIDTH = 1;
     public static final int PLAYER_HEIGHT = 2;
 
-    //This is temporary
-    //TODO: change the player representation to a sprite
-    
-    public static final java.awt.Color PLAYER_COLOR = Color.GREEN;
+    public static final int SPRITE_HEIGHT = 2;
 
     // --- jump physics ---
     public static final double MAX_JUMP_HEIGHT = 2.0 * Grid.BLOCK_SIZE; // pixels (1.25 blocks)
@@ -43,6 +41,8 @@ public class Player {
 
     private Hitbox hitbox;
 
+    public Sprite sprite;
+
     public Player(){
         reset();
         velocityY = 0;
@@ -50,6 +50,14 @@ public class Player {
         pixelX = START_GRID_X * Grid.BLOCK_SIZE;
         pixelY = START_GRID_Y * Grid.BLOCK_SIZE;
         hitbox = new Hitbox(START_GRID_X, START_GRID_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
+
+        try {
+            sprite = new Sprite(Sprite.PLAYER, pixelX, pixelY,
+                PLAYER_WIDTH*Grid.BLOCK_SIZE, SPRITE_HEIGHT*Grid.BLOCK_SIZE, true);
+            Grid.sprites.add(sprite);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
          //TODO: We might want to change this to deal with falling (right now you can jump up and down but can't fall)
         // drives both horizontal movement and the jump arc
@@ -87,6 +95,7 @@ public class Player {
             hitbox.setX((int) Math.ceil((pixelX + amount) / 40)); //for preventing collision
             pixelX = hitbox.getPixelX();
         }
+        sprite.setPixelX(pixelX);
     }
 
     public void moveRight(int amount) {
@@ -96,6 +105,7 @@ public class Player {
             hitbox.setX((int) Math.floor((pixelX - amount) / 40)); //for preventing collision
             pixelX = hitbox.getPixelX();
         }
+        sprite.setPixelX(pixelX);
     }
 
     public void startJump() {
@@ -112,6 +122,7 @@ public class Player {
 
         pixelY += velocityY;
         hitbox.setPixelY((int) pixelY);
+        sprite.setPixelY(pixelY);
         velocityY += G;
 
         //these are checks that make sure the player won't phase through solid blocks when they are jumping/falling
@@ -119,6 +130,7 @@ public class Player {
             velocityY = 0;
             hitbox.setY((int) Math.ceil(pixelY / 40.0)); //for preventing collision
             pixelY = hitbox.getPixelY();
+            sprite.setPixelY(pixelY);
             //System.out.println("Hit roof");
             return;
         }
@@ -127,9 +139,12 @@ public class Player {
             velocityY = 0;
             hitbox.setY(pixelY / 40); //for preventing collision
             pixelY = hitbox.getPixelY();
+            sprite.setPixelY(pixelY);
             //System.out.println("Hit ground");
             //return;
         }
+
+        
     }
 
     // --- coordinate accessors ---
@@ -149,10 +164,10 @@ public class Player {
         return pixelY / Grid.BLOCK_SIZE;
     }
 
-    public void setPixelX(int x) {
+    public static void setPixelX(int x) {
         pixelX = x;
     }
-    public void setPixelY(int y) {
+    public static void setPixelY(int y) {
         pixelY = y;
     }
 
@@ -194,8 +209,5 @@ public class Player {
         }
         return false;
     }
-
-    
-    
     
 }

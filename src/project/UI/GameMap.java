@@ -71,6 +71,7 @@ public class GameMap extends JPanel {
         // player's current pixel position always lands in the middle of
         // the visible area. This is recalculated every frame, so it works
         // for the very first frame too (no separate "starting bounds" needed).
+        if (GameMap.player[0] == null) return;
         deltaX = (int) (viewportWidth / 2 - GameMap.player[0].getPixelX());
         deltaY = (int) (viewportHeight / 2 - GameMap.player[0].getPixelY());
 
@@ -132,9 +133,10 @@ public class GameMap extends JPanel {
         // draw the player at its world position -- since deltaX/deltaY above
         // were derived specifically to center the player, this lands it in
         // the middle of the viewport every frame without any extra math
-        g2d.setColor(Player.PLAYER_COLOR);
-        g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
-                     Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
+        // placeholder for player sprite
+            // g2d.setColor(Player.PLAYER_COLOR);
+            // g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
+            //              Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
         
         //for loading sprites
         if (Hotbar.selectedSlot == 0) {
@@ -181,6 +183,11 @@ public class GameMap extends JPanel {
                 }
             }
         }
+        //if (GameMap.player != null && GameMap.player[0] != null) {
+            //g2d.drawImage(GameMap.player[0].sprite.getImage(),
+            //      GameMap.player[0].getPixelX(), GameMap.player[0].getPixelY(),
+            //      GameMap.player[0].sprite.getPixelWidth(), GameMap.player[0].sprite.getPixelHeight(), null);
+        //}
     }
 
     /**
