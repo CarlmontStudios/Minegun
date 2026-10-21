@@ -16,7 +16,8 @@ public class Projectile {
         BULLET,
         ROCKET,
         LASER,
-        MINING_PROJECTILE
+        MINING_PROJECTILE,
+        PISTOL_BULLET
     }
 
     public static final int DEFAULT_PICKAXE_DAMAGE = 1; //1

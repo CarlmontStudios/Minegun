@@ -160,10 +160,7 @@ public class GameMap extends JPanel {
                 e.printStackTrace();
             }
 
-        double rand = Math.random();
-        if (rand < 0.01) {
-            //System.out.println("drawing worm set");
-        }
+        
         for (Sprite sprite : Grid.sprites) {
             if (sprite != null) {
                 try {

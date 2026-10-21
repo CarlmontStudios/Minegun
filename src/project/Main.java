@@ -31,10 +31,10 @@ public class Main {
 
                 
             }
-            if (0 < Math.random() && Math.random() < 0.01) {
-                reportWormSprites();
-                reportBlockSprites();
-            }
+            // if (0 < Math.random() && Math.random() < 0.01) {
+            //     reportWormSprites();
+            //     reportBlockSprites();
+            // }
 
             // worms should spawn roughly every 20 seconds.
             // 16 miliseconds = 0.016 seconds. In a 20 second period, this will repeat 20/0.016 = 1250 times
@@ -61,12 +61,12 @@ public class Main {
                 }
 
                 boolean reporting = true;
-                if (reporting) {
-                    // System.out.println("Upper: " + upperBound);
-                    // System.out.println("Lower: " + lowerBound);
-                    // System.out.println("Right: " + rightBound);
-                    // System.out.println("Left: " + leftBound);
-                }
+                // if (reporting) {
+                //     // System.out.println("Upper: " + upperBound);
+                //     // System.out.println("Lower: " + lowerBound);
+                //     // System.out.println("Right: " + rightBound);
+                //     // System.out.println("Left: " + leftBound);
+                // }
                 int wormX = leftBound + (int) (Math.random() * (rightBound - leftBound + 1));
                 int wormY = upperBound + (int) (Math.random() * (lowerBound - upperBound + 1));
 

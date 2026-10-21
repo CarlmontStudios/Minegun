@@ -52,6 +52,9 @@ public class Worm {
         Timer wormTimer = new Timer(60, e -> {
 
             pathfind_to_player();
+            //System.out.println(Grid.sprites);
+            
+            Grid.grid[body[length -1].getX()][body[length -1].getY()] = 0; 
             // int blocksPerTurn = 5;
             // boolean changingDirection = Math.random() < (1.0 / (8 * blocksPerTurn));
 
@@ -402,7 +405,7 @@ public class Worm {
          else if (Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), getDirectionTowardsTarget())){ //Grid.isNextBlockSolid(body[0].getX(), body[0].getY(), headDirection)
             //IF THE WORM IS JUST TRYING TO GET CLOSER TO THE PLAYER
             if (!pathFinding)
-                System.out.println("moving towards player");
+                //System.out.println("moving towards player");
             
 
             attacking = false;
@@ -416,7 +419,7 @@ public class Worm {
             //if (!pathFinding)
                 //System.out.println("pending direction: " + body[0].getPendingDirection() + "direction: " + body[0].getDirection());
             if ((body[0].getPixelY() % Grid.BLOCK_SIZE == 0 && body[0].getPixelX() % Grid.BLOCK_SIZE == 0)){
-                System.out.println("head direction(pending direction " + headDirection + " current direction: " + body[0].getDirection() + " x: " + countForDebugging);
+                //System.out.println("head direction(pending direction " + headDirection + " current direction: " + body[0].getDirection() + " x: " + countForDebugging);
                 countForDebugging++;
             }
             moveForward();
@@ -436,14 +439,14 @@ public class Worm {
                 int[] result = calculateShortestPath(1);
                 Direction firstDirection = Grid.directions[result[1]];
                 headDirection = firstDirection;
-                System.out.println("first direction: " + firstDirection);
+                //System.out.println("first direction: " + firstDirection);
                 body[0].setPendingDirection(firstDirection);
 
             } else{
                 int[] result = calculateShortestPath(-1);
                 Direction firstDirection = Grid.directions[result[1]];
                 headDirection = firstDirection;
-                System.out.println("first direction: " + firstDirection);
+                //System.out.println("first direction: " + firstDirection);
                 body[0].setPendingDirection(firstDirection);
             }
             previousDirectionWhileReversing = null;
@@ -587,9 +590,9 @@ public class Worm {
         reversing = false;
         reversingCounter = 0;
         if (body[0].getPixelX() % Grid.BLOCK_SIZE == 0 && body[0].getPixelY() % Grid.BLOCK_SIZE == 0){
-            System.out.println("reversing counter: " + reversingCounter);
-            System.out.println("head direction: " + body[0].getDirection());
-            System.out.println("is reversing direction null?" + previousDirectionWhileReversing == null);
+            //System.out.println("reversing counter: " + reversingCounter);
+            //System.out.println("head direction: " + body[0].getDirection());
+            //System.out.println("is reversing direction null?" + previousDirectionWhileReversing == null);
         }
         for (WormBodyPart p : body) Grid.worm_grid[p.getX()][p.getY()] = 0;
         for (int i = body.length - 1; i >=0; i--) {
@@ -610,7 +613,7 @@ public class Worm {
         
         reversing = true;
         previousDirectionWhileReversing = body[0].getDirection();
-        System.out.println("head direction: " + body[0].getDirection());
+        //System.out.println("head direction: " + body[0].getDirection());
         for (int i = 0; i < body.length; i++) {
                 //System.out.println("just entered worm body part for loop");
                 if (i != body.length - 1) {
@@ -622,8 +625,8 @@ public class Worm {
 
         if (body[0].getPixelX() % Grid.BLOCK_SIZE == 0 && body[0].getPixelY() % Grid.BLOCK_SIZE == 0){
             reversingCounter++;
-            System.out.println("reversing counter: " + reversingCounter);
-            System.out.println("previous direction while reversing" + previousDirectionWhileReversing);
+            //System.out.println("reversing counter: " + reversingCounter);
+            //System.out.println("previous direction while reversing" + previousDirectionWhileReversing);
         }
         
         //System.out.println(previousDirectionWhileReversing);
