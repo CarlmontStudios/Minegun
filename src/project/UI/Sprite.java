@@ -14,7 +14,8 @@ public class Sprite {
     int pixelY;
     int width;
     int height;
-
+    boolean canMove; // used to prevent item drops from shaking when near the player
+    int itemDropTicks; // represent amount of time since the item has dropped
     public static final String CRACKED_0 = "src/images/cracked_0.png";
     public static final String CRACKED_1 = "src/images/cracked_1.png";
     public static final String PICKAXE_HOVER = "src/images/pickaxe_hover.png";
@@ -22,6 +23,7 @@ public class Sprite {
     public static final String INVENTORY_BUTTON = "src/images/Inventory_Button.png";
     public static final String HIGHLIGHTED_INVENTORY_BUTTON = "src/images/Highlighted_Inventory_Button.jpg";
     public static final String WORM_TEST = "src/images/Worm_Test.png";
+    public static final String ROCK = "src/images/rock_sprite.png";
 
     /**
      * creates a new sprite with grid square units
@@ -139,5 +141,18 @@ public class Sprite {
     }
     public int getPixelHeight() {
         return height * Grid.BLOCK_SIZE;
+    }
+    public boolean canMove() {
+        return canMove;
+    }
+    public void setCanMove(boolean b) {
+        canMove = b;
+    }
+    public int getItemDropTicks()
+    {
+        return itemDropTicks;
+    }
+    public void setItemDropTicks(int i) {
+        itemDropTicks = i;
     }
 }

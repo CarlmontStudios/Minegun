@@ -20,6 +20,7 @@ public class Grid {
 
     public static final Sprite[][] block_sprite_grid = new Sprite[MAP_WIDTH][MAP_HEIGHT]; //grid for block sprites
     public static final ArrayList<Sprite> sprites = new ArrayList<>(); //list of sprites in the game (thinking of using this for sprites that have animations)
+    public static final ArrayList<Sprite> itemDrops = new ArrayList<>(); // list of item drop sprites specifically
     public static final int BLOCK_SIZE = 40; //in pixels
 
 

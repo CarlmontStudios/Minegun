@@ -7,11 +7,14 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import project.gameobjects.Item;
+
 public class Inventory extends JPanel {
 
     public int width = 900;
     public int height = 500;
     public int squareLength = 100;
+    public static Item[] items;
     public static void displayInventory()
     {
     }

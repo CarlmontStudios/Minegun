@@ -39,7 +39,7 @@ public class Worm {
             boolean changingDirection = Math.random() < (1.0 / (8 * blocksPerTurn));
 
             if (changingDirection) {
-                System.out.println("changing direction of worm");
+                // System.out.println("changing direction of worm");
                 double choice = (int) (Math.random() * 2);
                 // 0 is turn left, 1 is turn right
                 // enums are lowk annoying for direction, using a vector would be better

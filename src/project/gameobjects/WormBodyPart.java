@@ -118,8 +118,8 @@ public class WormBodyPart {
         int displayX = (x * Grid.BLOCK_SIZE + xOffset); //- GameMap.getDeltaX();
         int displayY = (y * Grid.BLOCK_SIZE + yOffset); //- GameMap.getDeltaX();
         if (Math.random() < 0.01) {
-            System.out.println("displayX: " + displayX);
-            System.out.println("displayY: " + displayY);
+            // System.out.println("displayX: " + displayX);
+            // System.out.println("displayY: " + displayY);
         }
         sprite.setPixelX(displayX);
         sprite.setPixelY(displayY);
