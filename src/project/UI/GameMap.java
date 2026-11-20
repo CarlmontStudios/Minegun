@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -70,6 +71,7 @@ public class GameMap extends JPanel {
         // player's current pixel position always lands in the middle of
         // the visible area. This is recalculated every frame, so it works
         // for the very first frame too (no separate "starting bounds" needed).
+        if (GameMap.player[0] == null) return;
         deltaX = (int) (viewportWidth / 2 - GameMap.player[0].getPixelX());
         deltaY = (int) (viewportHeight / 2 - GameMap.player[0].getPixelY());
 
@@ -131,9 +133,10 @@ public class GameMap extends JPanel {
         // draw the player at its world position -- since deltaX/deltaY above
         // were derived specifically to center the player, this lands it in
         // the middle of the viewport every frame without any extra math
-        g2d.setColor(Player.PLAYER_COLOR);
-        g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
-                     Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
+        // placeholder for player sprite
+            // g2d.setColor(Player.PLAYER_COLOR);
+            // g2d.fillRect((int) GameMap.player[0].getPixelX(), (int) GameMap.player[0].getPixelY(),
+            //              Player.PLAYER_WIDTH * Grid.BLOCK_SIZE, Player.PLAYER_HEIGHT * Grid.BLOCK_SIZE);
         
         //for loading sprites
         if (Hotbar.selectedSlot == 0) {
@@ -157,16 +160,31 @@ public class GameMap extends JPanel {
                 e.printStackTrace();
             }
 
-        double rand = Math.random();
+        
         for (Sprite sprite : Grid.sprites) {
             if (sprite != null) {
                 try {
-                    g2d.drawImage(sprite.getImage(), sprite.getPixelX(), sprite.getPixelY(), sprite.getPixelWidth(), sprite.getPixelHeight(), null);
+                    
+                    int w = sprite.getPixelWidth();
+                    int h = sprite.getPixelHeight();
+                    // rotate around the center of the sprite
+                    double cx = sprite.getPixelX() + w / 2.0;
+                    double cy = sprite.getPixelY() + h / 2.0;
+
+                    AffineTransform old = g2d.getTransform();
+                    g2d.rotate(Math.toRadians(sprite.getAngle()), cx, cy);
+                    g2d.drawImage(sprite.getImage(), sprite.getPixelX(), sprite.getPixelY(), w, h, null);
+                    g2d.setTransform(old); // restore, or everything after this is rotated
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+        //if (GameMap.player != null && GameMap.player[0] != null) {
+            //g2d.drawImage(GameMap.player[0].sprite.getImage(),
+            //      GameMap.player[0].getPixelX(), GameMap.player[0].getPixelY(),
+            //      GameMap.player[0].sprite.getPixelWidth(), GameMap.player[0].sprite.getPixelHeight(), null);
+        //}
     }
 
     /**

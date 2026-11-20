@@ -57,10 +57,10 @@ public class Controls {
                 // TESTING
                 if (e.getKeyCode() == KeyEvent.VK_C) {
                     GameMap.player[0].setPixelY(GameMap.player[0].getPixelY()+250);
-                    System.out.println(GameMap.player[0].getPixelY());
+                    //System.out.println(GameMap.player[0].getPixelY());
                 }
                 if (e.getKeyCode() == KeyEvent.VK_V) {
-                    GameMap.player[0].setPixelY(GameMap.player[0].getPixelY()-250);
+                    //GameMap.player[0].setPixelY(GameMap.player[0].getPixelY()-250);
                 }
             }
 
