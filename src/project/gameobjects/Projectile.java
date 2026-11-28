@@ -144,6 +144,15 @@ public class Projectile {
         if (Grid.block_health_grid[blockX][blockY] <= 0.5 * Grid.block_max_health_grid[blockX][blockY]) {
             crackedSpritePath = Sprite.CRACKED_0; // Path to the more cracked sprite image
         }
+        
+        // Detect block breaking, and drop an item
+        if (Grid.block_health_grid[blockX][blockY] <= 0) {
+            for (int i =0;i < 5; i++)
+            {
+                ItemDrop.Drop(Sprite.ROCK,blockX * Grid.BLOCK_SIZE, blockY * Grid.BLOCK_SIZE, 1,1,blockX,blockY);
+            }
+        }
+
         try {
             Grid.block_sprite_grid[blockX][blockY] = new Sprite(crackedSpritePath, blockX, blockY, 1, 1);
         } catch (IOException ex) {
