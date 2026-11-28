@@ -16,6 +16,8 @@ public class Sprite {
     int height;
     boolean canMove; // used to prevent item drops from shaking when near the player
     int itemDropTicks; // represent amount of time since the item has dropped
+    double angle;
+
     public static final String CRACKED_0 = "src/images/cracked_0.png";
     public static final String CRACKED_1 = "src/images/cracked_1.png";
     public static final String PICKAXE_HOVER = "src/images/pickaxe_hover.png";
@@ -24,6 +26,7 @@ public class Sprite {
     public static final String HIGHLIGHTED_INVENTORY_BUTTON = "src/images/Highlighted_Inventory_Button.jpg";
     public static final String WORM_TEST = "src/images/Worm_Test.png";
     public static final String ROCK = "src/images/rock_sprite.png";
+    public static final String PLAYER = "src/images/Player.png";
 
     /**
      * creates a new sprite with grid square units
@@ -36,6 +39,7 @@ public class Sprite {
         this.imagePath = imagePath;
         this.width = width;
         this.height = height;
+        this.angle = 0;
         image = ImageIO.read(new File(imagePath));
         x = 0;
         y = 0;
@@ -154,5 +158,12 @@ public class Sprite {
     }
     public void setItemDropTicks(int i) {
         itemDropTicks = i;
+
+    public double getAngle(){
+        return angle;
+    }
+
+    public void setAngle(double angle){
+        this.angle = angle;
     }
 }
